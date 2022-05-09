@@ -35,32 +35,32 @@ services:
       - |
         yarn dev
 
-  auth:
-    image: node
-    volumes:
-      - './auth:/mnt/auth'
-    working_dir: '/mnt/auth'
-    environment:
-      PORT: '3000'
-      SECURE_KEY: 'D9C01532BD25898DDFB6A04FEC7EB84948B1F4F4E2E73199F221AD3EED1A99C5,C63BBC1884AD649D63607D8ACCE91AE9530DB7903FC377973E922E47A93C82E0'
-      AUTH_URL: ${AUTH_URL:-https://auth.lvh.me:3002}
-      APP_URL: ${APP_URL:-https://app.lvh.me:3001}
-      # Without this, it shows "no matching state in storage"
-      TZ: ${TZ:-Europe/London}
-    entrypoint: '/bin/bash -c'
-    command:
-      - |
-        npm start
-    ports: [ 19229:19229 ]
+  # auth:
+  #   image: node
+  #   volumes:
+  #     - './auth:/mnt/auth'
+  #   working_dir: '/mnt/auth'
+  #   environment:
+  #     PORT: '3000'
+  #     SECURE_KEY: 'D9C01532BD25898DDFB6A04FEC7EB84948B1F4F4E2E73199F221AD3EED1A99C5,C63BBC1884AD649D63607D8ACCE91AE9530DB7903FC377973E922E47A93C82E0'
+  #     AUTH_URL: ${AUTH_URL:-https://auth.lvh.me:3002}
+  #     APP_URL: ${APP_URL:-https://app.lvh.me:3001}
+  #     # Without this, it shows "no matching state in storage"
+  #     TZ: ${TZ:-Europe/London}
+  #   entrypoint: '/bin/bash -c'
+  #   command:
+  #     - |
+  #       npm start
+  #   ports: [ 19229:19229 ]
 
-  mongo:
-    image: mongo:4.4.10
-    volumes:
-      - "./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
-    environment:
-      MONGO_USERNAME: mongouser
-      MONGO_PASSWORD: mongopassword
-      MONGO_DATABASE: bible-tracker
+  # mongo:
+  #   image: mongo:4.4.10
+  #   volumes:
+  #     - "./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+  #   environment:
+  #     MONGO_USERNAME: mongouser
+  #     MONGO_PASSWORD: mongopassword
+  #     MONGO_DATABASE: bible-tracker
 
   getaway:
     image: nginx
