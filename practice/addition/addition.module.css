@@ -1,3 +1,7 @@
-.additionWrapper {
+.answerWrong {
   background: red;
+}
+
+.answerCorrect {
+  background: green;
 }

@@ -15,8 +15,6 @@ type Action = {
 type State = Action[] 
 
 const Loop: FC<Props> = ({ max }) => {
-
-  // const [ addends, setAddends ] = useState<number[]>([0, 0])
   const [ state, dispatch ] = useReducer(
     (oldstate: State, action: Action): State => {
       return [...oldstate, action];
@@ -28,18 +26,16 @@ const Loop: FC<Props> = ({ max }) => {
   const addOneMore = (answer: number) => {
     dispatch({
       addends: [getRandomInt(max + 1), getRandomInt(max + 1)],
-      // addends: [0, 0],
       submitted: false
     })
   }
   useEffect(() => {
-      if(isInitialRender.current){// skip initial execution of useEffect
-        isInitialRender.current = false;// set it to false so subsequent changes of dependency arr will make useEffect to execute
-        return;
-      }
-      dispatch({
+    if(isInitialRender.current){// skip initial execution of useEffect
+      isInitialRender.current = false;// set it to false so subsequent changes of dependency arr will make useEffect to execute
+      return;
+    }
+    dispatch({
       addends: [getRandomInt(max + 1), getRandomInt(max + 1)],
-      // addends: [0, 0],
       submitted: false
     })
   }, []);
@@ -55,12 +51,10 @@ const Loop: FC<Props> = ({ max }) => {
     </div>
   )
 } 
-/////
 
 type Props = {
   max: number;
 };
-
 
 type AdditionProps = {
   addends: number[];
@@ -70,29 +64,41 @@ type AdditionProps = {
 const Addition: FC<AdditionProps> = function ({ addends, onSubmit }) {
   const [value, setValue] = useState<number|''>('');
   const [submitted, setSubmitted] = useState<boolean>(false);
-  const handleSubmit = () => {
+  const handleSubmit = (event:  React.SyntheticEvent<HTMLFormElement>) => {
+    if (value === '') {
+      event.preventDefault()
+      return
+    }
+
     setSubmitted(true);
-    onSubmit(9);
+    onSubmit(value);
   }
   const handleChange = (event: any) => {
-    setValue(event.target.value)
+    const newVal = event.target.value
+    setValue(newVal.substr(0,2))
   }
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+  
   if (submitted) {
     const isCorrect = value == addends.reduce((a, b) => a + b)
     return (
-      <div>
+      <div className={isCorrect ? styles.answerCorrect : styles.answerWrong}>
         {addends[0]} + {addends[1]} = {value}
         {isCorrect && 'Correct'}
         {!isCorrect && 'Wrong'}
       </div>
     )
   }
-
   return (
-    <div className={styles.additionWrapper}>
-      {addends[0]} + {addends[1]} = <input value={value} onChange={ handleChange} />
-      <button onClick={ handleSubmit }>Ok</button>
-    </div>
+    <form className={styles.additionWrapper} onSubmit={ handleSubmit }>
+      {addends[0]} + {addends[1]} =
+      <input value={value} type="number" ref={ inputRef } onChange={ handleChange} />
+      <input type="submit" value="Ok" />
+    </form>
   );
 };
 
