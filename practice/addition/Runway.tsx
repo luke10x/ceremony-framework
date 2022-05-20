@@ -14,7 +14,7 @@ type Action = {
 }; 
 type State = Action[] 
 
-const Loop: FC<Props> = ({ max }) => {
+const Runway: FC<Props> = ({ max }) => {
   const [ state, dispatch ] = useReducer(
     (oldstate: State, action: Action): State => {
       return [...oldstate, action];
@@ -103,4 +103,4 @@ const Addition: FC<AdditionProps> = function ({ addends, onSubmit }) {
 };
 
 
-export default Loop;
+export default Runway;
