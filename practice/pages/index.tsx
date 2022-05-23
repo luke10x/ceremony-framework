@@ -5,6 +5,8 @@ import Runway from '../addition/Runway'
 import StickyHeaderFor from '../components/StickyHeaderFor'
 import RealTimeMonitor from '../components/realtime-monitor'
 import styles from '../styles/Home.module.css'
+import Counter from '../components/counter'
+import Link from 'next/link'
 
 const Home: NextPage = () => {
   return (
@@ -25,16 +27,9 @@ const Home: NextPage = () => {
       </main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://luke10x.dev"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            luke10x.dev
-          </span>
-        </a>
+        <Link href="/zoo">
+          <a>Other components</a>
+        </Link>
       </footer>
     </div>
   )
