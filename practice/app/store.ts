@@ -6,6 +6,7 @@ import {
 import counterReducer from '../features/counter/counterSlice';
 import { enterprizeCounterReducer } from '../features/enterprizeCounter/slice';
 import kanyeReducer from '../features/ye/kanyeSlice';
+import practiceReducer from '../addition/practiceSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     counter: counterReducer,
     enterprizeCounter: enterprizeCounterReducer,
     kanyeQuote: kanyeReducer,
+    practice: practiceReducer,
   },
 })
 

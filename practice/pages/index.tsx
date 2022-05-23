@@ -1,9 +1,5 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import Runway from '../addition/Runway'
-import StickyHeaderFor from '../components/StickyHeaderFor'
-import RealTimeMonitor from '../components/realtime-monitor'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 
@@ -19,10 +15,9 @@ const Home: NextPage = () => {
       <main>
         <p>Practice addition for 5 minutes.</p>
         <p>How much you can score?</p>
-
-        <StickyHeaderFor header={<RealTimeMonitor />}> 
-          <Runway max={10} />
-        </StickyHeaderFor>
+        <Link href="/practice">
+          <a>Go to practice</a>
+        </Link>
       </main>
 
       <footer className={styles.footer}>
