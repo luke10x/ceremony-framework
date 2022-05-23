@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import Counter from '../components/counter'
+import Counter from '../features/counter/counter'
 import Link from 'next/link'
-import Kanye from '../ye/kanye'
+import Kanye from '../features/ye/kanye'
 
 const Zoo: NextPage = () => {
   return (

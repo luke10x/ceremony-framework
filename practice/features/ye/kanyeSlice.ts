@@ -2,7 +2,7 @@ import {
   createAsyncThunk,
   createSlice,
 } from '@reduxjs/toolkit';
-import type { RootState } from '../app/store';
+import type { RootState } from '../../app/store';
 
 // here we are typing the types for the state
 export type KanyeState = {

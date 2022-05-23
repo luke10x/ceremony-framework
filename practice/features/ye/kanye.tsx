@@ -2,7 +2,7 @@ import React from 'react';
 import {
   useAppDispatch,
   useAppSelector,
-} from '../app/hooks';
+} from '../../app/hooks';
 import {
   getKanyeQuote,
   selectKanye,

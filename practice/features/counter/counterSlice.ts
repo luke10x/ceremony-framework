@@ -2,7 +2,7 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import type { RootState } from '../app/store';
+import type { RootState } from '../../app/store';
 
 // declaring the types for our state
 export type CounterState = {

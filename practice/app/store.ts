@@ -3,8 +3,8 @@ import {
   configureStore,
   ThunkAction,
 } from '@reduxjs/toolkit'
-import counterReducer from '../feature/counterSlice';
-import kanyeReducer from '../ye/kanyeSlice';
+import counterReducer from '../features/counter/counterSlice';
+import kanyeReducer from '../features/ye/kanyeSlice';
 
 export const store = configureStore({
   reducer: {

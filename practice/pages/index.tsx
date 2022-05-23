@@ -5,7 +5,6 @@ import Runway from '../addition/Runway'
 import StickyHeaderFor from '../components/StickyHeaderFor'
 import RealTimeMonitor from '../components/realtime-monitor'
 import styles from '../styles/Home.module.css'
-import Counter from '../components/counter'
 import Link from 'next/link'
 
 const Home: NextPage = () => {

@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import {
   useAppDispatch,
   useAppSelector,
-} from '../app/hooks';
+} from '../../app/hooks';
 import {
   decrement,
   increment,
   incrementByAmount,
   selectCount,
-} from '../feature/counterSlice';
+} from './counterSlice';
 
 type CounterProps = {
   className?: string
