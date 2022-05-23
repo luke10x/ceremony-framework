@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css'
 import Counter from '../features/counter/counter'
 import Link from 'next/link'
 import Kanye from '../features/ye/kanye'
+import EnterprizeCounter from '../features/enterprizeCounter/enterprizeCounter'
 
 const Zoo: NextPage = () => {
   return (
@@ -14,6 +15,7 @@ const Zoo: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Counter />
+      <EnterprizeCounter />
       <Kanye />
       <footer className={styles.footer}>
         <Link href="/">

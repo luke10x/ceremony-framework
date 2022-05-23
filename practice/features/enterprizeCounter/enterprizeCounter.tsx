@@ -8,22 +8,24 @@ import {
   decrement,
   increment,
   incrementByAmount,
-  selectCount,
-} from './counterSlice';
+  enterprizeCountSelector,
+} from './slice';
 
-type CounterProps = {
+type EnterprizeCounterProps = {
   className?: string
 }
 
-const Counter: FC<CounterProps> = function ({className}) {  
+const EnterprizeCounter: FC<EnterprizeCounterProps> = function ({className}) {  
     const dispatch = useAppDispatch();
-    const count = useAppSelector(selectCount);
+    const count = useAppSelector(enterprizeCountSelector);
     const [incrementAmount, setIncrementAmount] = useState<number>(0);
   
     return (
       <div className={className}>
         <p>
           The current number is {count}
+        </p><p>
+          (This is ✨enterprize✨ componet so everything is double)
         </p>
         <div>
           <input
@@ -32,7 +34,7 @@ const Counter: FC<CounterProps> = function ({className}) {
             type="number"
           />
           <button
-            onClick={() =>        dispatch(incrementByAmount(Number(incrementAmount)))}
+            onClick={() => dispatch(incrementByAmount(Number(incrementAmount)))}
           >
             Increment by amount
           </button>
@@ -45,7 +47,7 @@ const Counter: FC<CounterProps> = function ({className}) {
     );
 }
 
-const StyledCounter = styled(Counter)`
+const StyledEnterprizeCounter = styled(EnterprizeCounter)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -55,4 +57,4 @@ const StyledCounter = styled(Counter)`
   -webkit-box-shadow: -1px 7px 15px -10px rgba(0,0,0,0.75);
   -moz-box-shadow: -1px 7px 15px -10px rgba(0,0,0,0.75);
 `
-export default StyledCounter;
+export default StyledEnterprizeCounter;
