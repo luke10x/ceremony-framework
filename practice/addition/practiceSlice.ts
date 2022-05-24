@@ -23,6 +23,11 @@ const practiceSlice = createSlice({
         state.status = 'started';
       }
     },
+    finish: state => {
+      if (state.status === 'started') {
+        state.status = 'finished';
+      }
+    },
     // decrement: state => {
     //   state.value--;
     // },
@@ -33,7 +38,8 @@ const practiceSlice = createSlice({
 });
 
 export const {
-  start, 
+  start,
+  finish
 } = practiceSlice.actions;
 
 export const selectWholePracticeState = (state: RootState) => state.practice;

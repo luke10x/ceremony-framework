@@ -1,17 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import Runway from '../addition/Runway'
-import StickyHeaderFor from '../components/StickyHeaderFor'
-import RealTimeMonitor from '../components/realtime-monitor'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import PracticeComponent from '../addition/practice'
-
-// import Image from 'next/image'
-// import Runway from '../addition/Runway'
-// import StickyHeaderFor from '../components/StickyHeaderFor'
-// import RealTimeMonitor from '../components/realtime-monitor'
 
 const Practice: NextPage = () => {
   return (

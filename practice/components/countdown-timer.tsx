@@ -2,43 +2,61 @@
 import React, { FC } from 'react'
 import { useState, useEffect } from 'react';
 
-
 type CountDownTimerProps = {
-  initialMinute: number
-  initialSeconds: number
+  totalSeconds: number
+  onFinish: () => void
+  started: boolean
 }
 
-const CountDownTimer: FC<CountDownTimerProps> = ({initialMinute = 0,initialSeconds = 0}) => {
-  const [ minutes, setMinutes ] = useState(initialMinute);
-  const [seconds, setSeconds ] =  useState(initialSeconds);
-  useEffect(()=>{
-    let myInterval = setInterval(
+const CountDownTimer: FC<CountDownTimerProps> = ({totalSeconds = 120, onFinish, started}) => {
+
+  const [ elapsedSeconds, setElapsedSeconds ] = useState(0);
+
+  useEffect(() => {
+
+    if (!started) {
+      return () => {}
+    }
+
+    const timeout = setTimeout(
       () => {
-        if (seconds > 0) {
-          setSeconds(seconds - 1);
-        }
-        if (seconds === 0) {
-          if (minutes === 0) {
-            clearInterval(myInterval)
-          } else {
-            setMinutes(minutes - 1);
-            setSeconds(59);
-          }
-        } 
+        clearInterval(tick)
+        setElapsedSeconds(totalSeconds)
+        onFinish()
+      },
+      totalSeconds * 1000
+    )
+
+    const startSeconds = Math.floor(Number(new Date()) / 1000)
+    let tick = setInterval(
+      () => {
+        const nowSeconds = Math.floor(Number(new Date()) / 1000);
+        setElapsedSeconds(nowSeconds - startSeconds)
       },
       1000
     )
 
     return ()=> {
-      clearInterval(myInterval);
+      clearTimeout(timeout);
+      clearInterval(tick);
     };
-  });
+  }, [started]);
+
+  const remainingSeconds = totalSeconds - elapsedSeconds;
+
+  let hours   = Math.floor(remainingSeconds / 3600); // get hours
+  let minutes = Math.floor((remainingSeconds - (hours * 3600)) / 60); // get minutes
+  let seconds = remainingSeconds - (hours * 3600) - (minutes * 60); //  get seconds
+  if (seconds < 0) seconds = 0
 
   return (<>
-    { minutes === 0 && seconds === 0
-      ? null
-      : <span>{minutes}:{seconds < 10 ?  `0${seconds}` : seconds}</span> 
-    }
+    <span>
+      {/* {hours < 10 ?  `0${hours}` : hours}
+      : */}
+      {minutes < 10 ?  `0${minutes}` : minutes}
+      :
+      {seconds < 10 ?  `0${seconds}` : seconds}
+    </span> 
   </>)
 }
 
