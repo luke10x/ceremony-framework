@@ -21,22 +21,18 @@ const NotStartedPractice: FC = () => {
 
 const StartedPractice: FC = () => {
   return (
-    <div>
-      <StickyHeaderFor header={<RealTimeMonitor />}> 
-        <Runway max={10} />
-      </StickyHeaderFor>
-    </div>
+    <StickyHeaderFor header={<RealTimeMonitor />}> 
+      <Runway max={10} />
+    </StickyHeaderFor>
   )
 }
 
 const FinishedPractice: FC = () => {
   return (
-    <div>
-      <StickyHeaderFor header={<RealTimeMonitor />}> 
-        <Runway max={10} />
-        this is finished
-      </StickyHeaderFor>
-    </div>
+    <StickyHeaderFor header={<RealTimeMonitor />}> 
+      <Runway max={10} />
+      this is finished
+    </StickyHeaderFor>
   )
 }
 

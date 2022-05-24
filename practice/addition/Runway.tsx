@@ -1,53 +1,68 @@
-import React, { FC, FunctionComponent, useEffect, useReducer, useRef, useState } from "react";
-// import styles from "./addition.module.css";
+import React, { FC, useEffect, useReducer, useRef, useState } from "react";
 import styled from 'styled-components';
 import { keyframes } from 'styled-components'
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { addPracticeTask, selectWholePracticeState, trySolutionForPracticeTask } from "./practiceSlice";
+import {v4 as uuidv4} from 'uuid';
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
 }
 
-////
+const Runway: FC<Props> = function ({ className, max }) {
+  const dispatch = useAppDispatch();
+  const state = useAppSelector(selectWholePracticeState);
 
-type Action = {
-  addends: number[];
-  submitted: boolean;
-}; 
-type State = Action[] 
-
-const Runway: FC<Props> = ({ className, max }) => {
-  const [ state, dispatch ] = useReducer(
-    (oldstate: State, action: Action): State => {
-      return [...oldstate, action];
-    },
-    []
-  )
   const isInitialRender = useRef(true);// in react, when refs are changed component dont re-render 
 
-  const addOneMore = (answer: number) => {
-    dispatch({
-      addends: [getRandomInt(max + 1), getRandomInt(max + 1)],
-      submitted: false
-    })
+  const addOneMore = (answer: number, taskId: string) => {
+
+    dispatch(trySolutionForPracticeTask({
+      taskId,
+      type: 'addition',
+      sum: answer,
+    }))
+
+    const a = getRandomInt(max + 1)
+    const b = getRandomInt(max + 1)
+    dispatch(addPracticeTask({
+        addends: [a, b],
+        taskId: uuidv4(),
+        type: 'addition',
+        wantSum: a + b,
+      }))
   }
   useEffect(() => {
     if(isInitialRender.current){// skip initial execution of useEffect
       isInitialRender.current = false;// set it to false so subsequent changes of dependency arr will make useEffect to execute
       return;
     }
-    dispatch({
-      addends: [getRandomInt(max + 1), getRandomInt(max + 1)],
-      submitted: false
-    })
+
+    const a = getRandomInt(max + 1)
+    const b = getRandomInt(max + 1)
+    dispatch(addPracticeTask({
+      addends: [a, b],
+      taskId: uuidv4(),
+      type: 'addition',
+      wantSum: a + b,
+    }))
   }, []);
 
   return (
-    <div className={className}>
-      {state.map((action: Action, index: number) => ((
-        <div className="each" key={index}>
-          <Addition addends={action.addends} onSubmit={(a: number) => addOneMore(a)} />
-        </div>
-      )))}
+    <div className={`${className} status-${state.status}`}>
+      {state.practiceTasks
+        .filter(t => state.status === 'started' || t.gotSum !== undefined)
+        .map((action) => (
+          <div className="each" key={action.taskId}>
+              <Addition
+                  addends={action.addends}
+                  submitted={action.gotSum !== undefined}
+                  initialValue={action.gotSum === undefined ? '' : String(action.gotSum) }
+                  isCorrect={action.wantSum === action.gotSum}
+                  onSubmit={(a: string) => addOneMore(Number(a), action.taskId)} />
+          </div>
+        ))
+      }
     </div>
   )
 } 
@@ -64,7 +79,7 @@ const StyledRunway = styled(Runway)`
   display: flex;
   flex-direction: column;
 
-  .each:last-child {
+  &.status-started .each:last-child {
     border: 1px solid #ccc;
   
     padding: 20px;
@@ -86,7 +101,8 @@ const StyledRunway = styled(Runway)`
     animation-duration: .8s;
     animation-iteration-count: 1;
   }
-  .each:not(:last-child) {
+
+  &.status-started .each:not(:last-child) {
     animation-name: ${smallDown};
     animation-duration: 1.2s;
     animation-iteration-count: 1;
@@ -96,8 +112,6 @@ const StyledRunway = styled(Runway)`
     align-self: center;
     display: flex;
     
-    div {
-    }
     input { 
       width: 60px;
     }
@@ -105,32 +119,34 @@ const StyledRunway = styled(Runway)`
 `
 
 type Props = {
-  className?: string;
-  max: number;
+  className?: string
+  max: number
 };
 
 type AdditionProps = {
-  addends: number[];
-  onSubmit: (value: number) => void;
+  addends: number[]
+  submitted: boolean
+  initialValue: string
+  isCorrect: boolean
+  onSubmit: (value: string) => void
 };
 
-const styles = {
-  answerCorrect: '',
-  answerWrong: '',
-  additionWrapper: ''
-}
-const Addition: FC<AdditionProps> = function ({ addends, onSubmit }) {
-  const [value, setValue] = useState<number|''>('');
-  const [submitted, setSubmitted] = useState<boolean>(false);
+const Addition: FC<AdditionProps> = function ({
+  addends,
+  submitted,
+  initialValue,
+  isCorrect,
+  onSubmit
+}) {
+  const [value, setValue] = useState<string>(initialValue);
+
   const handleSubmit = (event:  React.SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault()
     if (value === '') {
-      event.preventDefault()
       return
     }
 
-    setSubmitted(true);
     onSubmit(value);
-
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
   }
   const handleChange = (event: any) => {
@@ -144,23 +160,22 @@ const Addition: FC<AdditionProps> = function ({ addends, onSubmit }) {
   }, []);
   
   if (submitted) {
-    const isCorrect = value == addends.reduce((a, b) => a + b)
     return (
-      <div className={isCorrect ? styles.answerCorrect : styles.answerWrong}>
+      <div>
         {addends[0]} + {addends[1]} = {value}
         {isCorrect && <span role="img" aria-label="Correct!">✅</span>}
         {!isCorrect && <span role="img" aria-label="Wrong!">⛔</span>}
       </div>
     )
   }
+
   return (
-    <form className={styles.additionWrapper} onSubmit={ handleSubmit }>
+    <form onSubmit={ handleSubmit }>
       {addends[0]} + {addends[1]} =
       <input value={value} type="number" ref={ inputRef } onChange={ handleChange} />
       <input type="submit" value="Ok" />
     </form>
   );
 };
-
 
 export default StyledRunway;
