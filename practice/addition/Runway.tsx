@@ -2,7 +2,7 @@ import React, { FC, useEffect, useReducer, useRef, useState } from "react";
 import styled from 'styled-components';
 import { keyframes } from 'styled-components'
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { addPracticeTask, PracticeTask, selectWholePracticeState, SolutionForAdditionProblem, trySolutionForPracticeTask } from "./practiceSlice";
+import { addTask, PracticeTask, selectWholePracticeState, SolutionForAdditionProblem, applySolution } from "./practiceSlice";
 import {v4 as uuidv4} from 'uuid';
 import { TaskType } from "./practiceSlice";
 
@@ -10,8 +10,7 @@ function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
 }
 
-
-const createApplySolutionForAdditionProblemAction = (
+const createApplySolutionAction = (
   answer: number,
   taskId: string
 ): SolutionForAdditionProblem => ({
@@ -20,11 +19,13 @@ const createApplySolutionForAdditionProblemAction = (
     sum: answer,
 })
 
-const createAddPracticeTaskAction = (max: number): PracticeTask => {
+const createAddTaskAction = (max: number): PracticeTask => {
   const a = getRandomInt(max + 1)
   const b = getRandomInt(max + 1)
   return {
-    addends: [a, b],
+    problem: {
+      addends: [a, b],
+    },
     taskId: uuidv4(),
     type: TaskType.Addition,
     wantSum: a + b,
@@ -38,27 +39,17 @@ const Runway: FC<Props> = function ({ className, max }) {
   const isInitialRender = useRef(true);// in react, when refs are changed component dont re-render 
 
   const addOneMore = (answer: number, taskId: string) => {
-
-    dispatch(trySolutionForPracticeTask(createApplySolutionForAdditionProblemAction(answer, taskId)))
-
-    dispatch(addPracticeTask(createAddPracticeTaskAction(max)))
-
-
+    dispatch(applySolution(createApplySolutionAction(answer, taskId)))
+    dispatch(addTask(createAddTaskAction(max)))
   }
+
   useEffect(() => {
     if(isInitialRender.current){// skip initial execution of useEffect
       isInitialRender.current = false;// set it to false so subsequent changes of dependency arr will make useEffect to execute
       return;
     }
 
-    const a = getRandomInt(max + 1)
-    const b = getRandomInt(max + 1)
-    dispatch(addPracticeTask({
-      addends: [a, b],
-      taskId: uuidv4(),
-      type: 'addition',
-      wantSum: a + b,
-    }))
+    dispatch(addTask(createAddTaskAction(max)))
   }, []);
 
   return (
@@ -68,7 +59,7 @@ const Runway: FC<Props> = function ({ className, max }) {
         .map((action) => (
           <div className="each" key={action.taskId}>
               <Addition
-                  addends={action.addends}
+                  addends={action.problem.addends}
                   submitted={action.gotSum !== undefined}
                   initialValue={action.gotSum === undefined ? '' : String(action.gotSum) }
                   isCorrect={action.wantSum === action.gotSum}

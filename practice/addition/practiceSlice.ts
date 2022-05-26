@@ -7,7 +7,9 @@ import type { RootState } from '../app/store';
 type AdditionPracticeTask = {
   taskId: string
   type: TaskType.Addition
-  addends: number[]
+  problem: {
+    addends: number[]
+  }
   wantSum: number
   gotSum?: number
 }
@@ -25,6 +27,7 @@ export type SolutionForAdditionProblem = AdditionSolution
 export type PracticeTask = AdditionPracticeTask
 
 export type PracticeStatus = 'not-started' | 'started' | 'finished'
+
 export interface PracticeState {
   practiceId: string
   status: PracticeStatus
@@ -69,12 +72,12 @@ const practiceSlice = createSlice({
         state.status = 'finished';
       }
     },
-    addPracticeTask: (state, action: PayloadAction<PracticeTask>) => {
+    addTask: (state, action: PayloadAction<PracticeTask>) => {
       if (state.status === 'started') {
         state.practiceTasks.push(action.payload);
       }
     },
-    trySolutionForPracticeTask: (state, action: PayloadAction<TaskSolution>) => {
+    applySolution: (state, action: PayloadAction<TaskSolution>) => {
       if (state.status === 'started') {
         const task = state.practiceTasks.find((t) => t.taskId == action.payload.taskId)
         if (task) {
@@ -88,8 +91,8 @@ const practiceSlice = createSlice({
 export const {
   start,
   finish,
-  addPracticeTask,
-  trySolutionForPracticeTask
+  addTask,
+  applySolution,
 } = practiceSlice.actions;
 
 export const selectWholePracticeState = (state: RootState) => state.practice;
