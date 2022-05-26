@@ -2,11 +2,33 @@ import React, { FC, useEffect, useReducer, useRef, useState } from "react";
 import styled from 'styled-components';
 import { keyframes } from 'styled-components'
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { addPracticeTask, selectWholePracticeState, trySolutionForPracticeTask } from "./practiceSlice";
+import { addPracticeTask, PracticeTask, selectWholePracticeState, SolutionForAdditionProblem, trySolutionForPracticeTask } from "./practiceSlice";
 import {v4 as uuidv4} from 'uuid';
+import { TaskType } from "./practiceSlice";
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
+}
+
+
+const createApplySolutionForAdditionProblemAction = (
+  answer: number,
+  taskId: string
+): SolutionForAdditionProblem => ({
+    taskId: taskId,
+    type: TaskType.Addition,
+    sum: answer,
+})
+
+const createAddPracticeTaskAction = (max: number): PracticeTask => {
+  const a = getRandomInt(max + 1)
+  const b = getRandomInt(max + 1)
+  return {
+    addends: [a, b],
+    taskId: uuidv4(),
+    type: TaskType.Addition,
+    wantSum: a + b,
+  }
 }
 
 const Runway: FC<Props> = function ({ className, max }) {
@@ -17,20 +39,11 @@ const Runway: FC<Props> = function ({ className, max }) {
 
   const addOneMore = (answer: number, taskId: string) => {
 
-    dispatch(trySolutionForPracticeTask({
-      taskId,
-      type: 'addition',
-      sum: answer,
-    }))
+    dispatch(trySolutionForPracticeTask(createApplySolutionForAdditionProblemAction(answer, taskId)))
 
-    const a = getRandomInt(max + 1)
-    const b = getRandomInt(max + 1)
-    dispatch(addPracticeTask({
-        addends: [a, b],
-        taskId: uuidv4(),
-        type: 'addition',
-        wantSum: a + b,
-      }))
+    dispatch(addPracticeTask(createAddPracticeTaskAction(max)))
+
+
   }
   useEffect(() => {
     if(isInitialRender.current){// skip initial execution of useEffect

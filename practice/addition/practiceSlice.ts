@@ -6,33 +6,52 @@ import type { RootState } from '../app/store';
 
 type AdditionPracticeTask = {
   taskId: string
-  type: 'addition'
+  type: TaskType.Addition
   addends: number[]
   wantSum: number
   gotSum?: number
 }
 
-type AdditionTaskSolution = {
+type AdditionSolution = {
   taskId: string
-  type: 'addition'
+  type: TaskType.Addition
   sum: number
 }
 
-export type TaskSolution = AdditionTaskSolution
+export type TaskSolution = AdditionSolution
+
+export type SolutionForAdditionProblem = AdditionSolution
+
 export type PracticeTask = AdditionPracticeTask
+
 export type PracticeStatus = 'not-started' | 'started' | 'finished'
 export interface PracticeState {
   practiceId: string
   status: PracticeStatus
-  practiceType: 'addition'
+  practiceType: TaskType
   practiceTasks: PracticeTask[]
 };
 
+export enum TaskType {
+  Addition = 'ADDITION',
+  Multiplication = 'MULTIPLICATION',
+}
+
+export function deserializeTaskType(str: any): TaskType {
+  switch (str) {
+    case 'ADDITION':
+      return TaskType.Addition;
+    case 'MULTIPLICATION':
+      return TaskType.Multiplication;
+    default:
+      throw new Error(`Cannot parse "${str}" to type`)
+  }
+}
 
 const initialState: PracticeState = {
   practiceId: '',
   status: 'not-started',
-  practiceType: 'addition',
+  practiceType: TaskType.Addition,
   practiceTasks: [],
 };
 
