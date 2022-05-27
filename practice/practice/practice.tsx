@@ -1,13 +1,9 @@
 import React, { FC } from "react";
 import StickyHeaderFor from "../components/StickyHeaderFor";
-import Runway from "./Runway";
+import TaskLoop from "./taskLoop";
 import RealTimeMonitor from '../components/realtime-monitor'
 import { selectWholePracticeState, start } from "./practiceSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-
-interface PracticeProps {
-  className?: string
-}
 
 const NotStartedPractice: FC = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +18,7 @@ const NotStartedPractice: FC = () => {
 const StartedPractice: FC = () => {
   return (
     <StickyHeaderFor header={<RealTimeMonitor />}> 
-      <Runway />
+      <TaskLoop />
     </StickyHeaderFor>
   )
 }
@@ -30,13 +26,13 @@ const StartedPractice: FC = () => {
 const FinishedPractice: FC = () => {
   return (
     <StickyHeaderFor header={<RealTimeMonitor />}> 
-      <Runway />
+      <TaskLoop />
       this is finished
     </StickyHeaderFor>
   )
 }
 
-const Practice: FC<PracticeProps> = function ({className}) {
+const Practice: FC<Props> = function ({className}) {
   const practice = useAppSelector(selectWholePracticeState);
   const status = practice.status
   return (<div className={className}>
@@ -44,6 +40,10 @@ const Practice: FC<PracticeProps> = function ({className}) {
     {status === 'started' && <StartedPractice />}
     {status === 'finished' && <FinishedPractice />}
   </div>)
+}
+
+interface Props {
+  className?: string
 }
 
 export default Practice

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import Addition, { AdditionSolution, AdditionTask, additionTaskToProps, createAddTaskAction } from "./addition/addition";
+import Addition, { AdditionSolution, AdditionTask, additionTaskToProps } from "./addition/addition";
 import { Problem, Solution, Task, TaskType } from "./types";
 
 const TaskSwitch: FC<Props> = function ({ task, onSolve }) {

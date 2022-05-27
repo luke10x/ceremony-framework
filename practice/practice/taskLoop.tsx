@@ -7,7 +7,7 @@ import { createAddTaskAction } from "./addition/addition";
 import { Solution } from "./types";
 import TaskSwitch from "./taskSwitch";
 
-const Runway: FC<Props> = function ({ className }) {
+const TaskLoop: FC<Props> = function ({ className }) {
   const dispatch = useAppDispatch();
   const state = useAppSelector(selectWholePracticeState);
 
@@ -38,7 +38,11 @@ const Runway: FC<Props> = function ({ className }) {
       }
     </div>
   )
-} 
+}
+
+type Props = {
+  className?: string
+};
 
 const smallDown = keyframes`
   0% { font-size: 1.6rem; }
@@ -50,7 +54,7 @@ const appear = keyframes`
   100% { opacity: 1; }
 `
 
-const StyledRunway = styled(Runway)`
+const StyledTaskLoop = styled(TaskLoop)`
   display: flex;
   flex-direction: column;
 
@@ -93,8 +97,4 @@ const StyledRunway = styled(Runway)`
   }
 `
 
-type Props = {
-  className?: string
-};
-
-export default StyledRunway;
+export default StyledTaskLoop;

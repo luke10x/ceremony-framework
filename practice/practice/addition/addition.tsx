@@ -15,15 +15,7 @@ export interface AdditionTask extends Task<AdditionProblem, AdditionSolution> {
   type: TaskType.Addition
 }
 
-export type AdditionProps = {
-  addends: number[]
-  submitted: boolean
-  initialValue: string
-  isCorrect?: boolean
-  onSolve: (solution: AdditionSolution) => void
-};
-
-const Addition: FC<AdditionProps> = function ({
+const Addition: FC<Props> = function ({
   addends,
   submitted,
   initialValue,
@@ -72,12 +64,20 @@ const Addition: FC<AdditionProps> = function ({
   );
 };
 
+type Props = {
+  addends: number[]
+  submitted: boolean
+  initialValue: string
+  isCorrect?: boolean
+  onSolve: (solution: AdditionSolution) => void
+};
+
 export default Addition;
 
 export const additionTaskToProps = (
   task: AdditionTask,
   onSolve: (solution: AdditionSolution) => void
-): AdditionProps => {
+): Props => {
   const addends = task.problem.addends
   const submitted = task.solution !== undefined
   const initialValue = task.solution === undefined
