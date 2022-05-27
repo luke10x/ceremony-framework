@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { keyframes } from 'styled-components'
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { addTask, selectWholePracticeState, applySolution, createApplySolutionAction } from "./practiceSlice";
-import Addition, { AdditionSolution, AdditionTask, additionTaskToProps, createAddTaskAction } from "./addition/addition";
-import { Solution, TaskType } from "./types";
+import { createAddTaskAction } from "./addition/addition";
+import { Solution } from "./types";
+import TaskSwitch from "./taskSwitch";
 
 const Runway: FC<Props> = function ({ className }) {
   const dispatch = useAppDispatch();
@@ -31,18 +32,8 @@ const Runway: FC<Props> = function ({ className }) {
       {state.practiceTasks
         .filter(t => state.status === 'started' || t.solution !== undefined)
         .map((task) => {
-
-          switch (task.type) {
-            case TaskType.Addition:
-              const onSolve = (solution: AdditionSolution) => addOneMore(solution, task.taskId)
-              return (<div className="each" key={task.taskId}>
-                <Addition {...additionTaskToProps(task as AdditionTask, onSolve)}/>
-              </div>)
-            default:
-              return (<div className="each" key={task.taskId}>
-                what is the task type?
-              </div>)
-          }
+          const onSolve = (solution: Solution) => addOneMore(solution, task.taskId)
+          return <TaskSwitch task={task} onSolve={onSolve} />
         })
       }
     </div>
