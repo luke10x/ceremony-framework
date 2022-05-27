@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { addTask, PracticeTask, selectWholePracticeState, SolutionForAdditionProblem, applySolution } from "./practiceSlice";
 import {v4 as uuidv4} from 'uuid';
 import { TaskType } from "./practiceSlice";
+import Addition, { AdditionProps } from "./addition/addition";
+import { AdditionTask } from "./types";
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
@@ -52,18 +54,35 @@ const Runway: FC<Props> = function ({ className, max }) {
     dispatch(addTask(createAddTaskAction(max)))
   }, []);
 
+
+  // const additionTaskToProps = (task: AdditionTask): AdditionProps => {
+
+
+  //   const addends = task.problem.addends
+  //   const submitted = task.gotSum !== undefined
+  //   const initialValue = task.gotSum === undefined ? '' : String(task.gotSum)
+  //   const isCorrect = task.solution?.sum === task.gotSum
+  //   const onSubmit = (a: string) => addOneMore(Number(a), task.taskId)
+
+  //   return {
+  //     addends, submitted, initialValue, onSubmit
+  //   }
+  // }
+
+
   return (
     <div className={`${className} status-${state.status}`}>
       {state.practiceTasks
         .filter(t => state.status === 'started' || t.gotSum !== undefined)
-        .map((action) => (
-          <div className="each" key={action.taskId}>
-              <Addition
-                  addends={action.problem.addends}
-                  submitted={action.gotSum !== undefined}
-                  initialValue={action.gotSum === undefined ? '' : String(action.gotSum) }
-                  isCorrect={action.wantSum === action.gotSum}
-                  onSubmit={(a: string) => addOneMore(Number(a), action.taskId)} />
+        .map((task) => (
+          <div className="each" key={task.taskId}>
+
+            <Addition
+                addends={task.problem.addends}
+                submitted={task.gotSum !== undefined}
+                initialValue={task.gotSum === undefined ? '' : String(task.gotSum) }
+                isCorrect={task.wantSum === task.gotSum}
+                onSubmit={(a: string) => addOneMore(Number(a), task.taskId)} />
           </div>
         ))
       }
@@ -72,13 +91,15 @@ const Runway: FC<Props> = function ({ className, max }) {
 } 
 
 const smallDown = keyframes`
- 0% { font-size: 1.6rem; }
- 100% { font-size: 1rem; }
+  0% { font-size: 1.6rem; }
+  100% { font-size: 1rem; }
 `
+
 const appear = keyframes`
- 0% {   opacity: 0.3; }
- 100% { opacity: 1; }
+  0% {   opacity: 0.3; }
+  100% { opacity: 1; }
 `
+
 const StyledRunway = styled(Runway)`
   display: flex;
   flex-direction: column;
@@ -125,61 +146,6 @@ const StyledRunway = styled(Runway)`
 type Props = {
   className?: string
   max: number
-};
-
-type AdditionProps = {
-  addends: number[]
-  submitted: boolean
-  initialValue: string
-  isCorrect: boolean
-  onSubmit: (value: string) => void
-};
-
-const Addition: FC<AdditionProps> = function ({
-  addends,
-  submitted,
-  initialValue,
-  isCorrect,
-  onSubmit
-}) {
-  const [value, setValue] = useState<string>(initialValue);
-
-  const handleSubmit = (event:  React.SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    if (value === '') {
-      return
-    }
-
-    onSubmit(value);
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
-  }
-  const handleChange = (event: any) => {
-    const newVal = event.target.value
-    setValue(newVal.substr(0,2))
-  }
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-  
-  if (submitted) {
-    return (
-      <div>
-        {addends[0]} + {addends[1]} = {value}
-        {isCorrect && <span role="img" aria-label="Correct!">✅</span>}
-        {!isCorrect && <span role="img" aria-label="Wrong!">⛔</span>}
-      </div>
-    )
-  }
-
-  return (
-    <form onSubmit={ handleSubmit }>
-      {addends[0]} + {addends[1]} =
-      <input value={value} type="number" ref={ inputRef } onChange={ handleChange} />
-      <input type="submit" value="Ok" />
-    </form>
-  );
 };
 
 export default StyledRunway;

@@ -5,7 +5,6 @@ type StickyHeaderForProps = {
   className?: string
   children?: React.ReactNode
   header: React.ReactNode
-  
 }
 
 const StickyHeaderFor: FC<StickyHeaderForProps> = function ({

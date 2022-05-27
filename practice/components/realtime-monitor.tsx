@@ -1,6 +1,6 @@
 import React, { FC, FunctionComponent, useEffect, useReducer, useRef, useState } from "react";
 import styled from "styled-components";
-import { finish, selectWholePracticeState } from "../addition/practiceSlice";
+import { finish, selectWholePracticeState } from "../practice/practiceSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CountDownTimer from "./countdown-timer";
 

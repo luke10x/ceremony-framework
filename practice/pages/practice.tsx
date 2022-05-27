@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import PracticeComponent from '../addition/practice'
+import PracticeComponent from '../practice/practice'
 
 const Practice: NextPage = () => {
   return (
