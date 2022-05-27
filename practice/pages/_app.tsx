@@ -5,11 +5,18 @@ import { store } from '../app/store';
 function MyApp({
   Component, pageProps,
 }: AppProps) {
-  return (
+  return (<>
+    <style jsx global>{`
+      body {
+        margin: 0px;
+        padding: 0px;
+        min-height: 100vh;
+      }
+    `}</style>
     <Provider store={store}>
       <Component {...pageProps} />
     </Provider>
-  );
+  </>);
 }
 
 export default MyApp;

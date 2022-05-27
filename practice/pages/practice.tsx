@@ -3,6 +3,20 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import PracticeComponent from '../practice/practice'
+import styled from 'styled-components'
+import Hints from '../practice/hints'
+
+const Main = styled.main`
+  margin: 0; padding: 0;
+  border: 0 solid red;
+  flex: 1;
+`
+const Footer = styled.footer`
+  margin: 0; padding: 0;
+
+  border: 0 solid red;
+  flex: 0 1;
+`
 
 const Practice: NextPage = () => {
   return (
@@ -13,15 +27,13 @@ const Practice: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <Main>
         <PracticeComponent />
-      </main>
+      </Main>
 
-      <footer className={styles.footer}>
-        <Link href="/">
-          <a>Back</a>
-        </Link>
-      </footer>
+      <Footer className={styles.footer}>
+        <Hints />
+      </Footer>
     </div>
   )
 }

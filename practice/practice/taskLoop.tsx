@@ -31,9 +31,9 @@ const TaskLoop: FC<Props> = function ({ className }) {
     <div className={`${className} status-${practice.status}`}>
       {practice.practiceTasks
         .filter(t => practice.status === 'started' || t.solution !== undefined)
-        .map((task) => {
+        .map((task, key) => {
           const onSolve = (solution: Solution<TaskType>) => addOneMore(solution, task.taskId)
-          return <TaskSwitch task={task} onSolve={onSolve} />
+          return <TaskSwitch key={key} task={task} onSolve={onSolve} />
         })
       }
     </div>
