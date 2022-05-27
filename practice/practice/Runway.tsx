@@ -1,48 +1,20 @@
-import React, { FC, useEffect, useReducer, useRef, useState } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import styled from 'styled-components';
 import { keyframes } from 'styled-components'
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { addTask, PracticeTask, selectWholePracticeState, SolutionForAdditionProblem, applySolution } from "./practiceSlice";
-import {v4 as uuidv4} from 'uuid';
-import { TaskType } from "./practiceSlice";
-import Addition, { AdditionProps } from "./addition/addition";
-import { AdditionTask } from "./types";
+import { addTask, selectWholePracticeState, applySolution, createApplySolutionAction } from "./practiceSlice";
+import Addition, { AdditionSolution, AdditionTask, additionTaskToProps, createAddTaskAction } from "./addition/addition";
+import { Solution, TaskType } from "./types";
 
-function getRandomInt(max: number) {
-  return Math.floor(Math.random() * max);
-}
-
-const createApplySolutionAction = (
-  answer: number,
-  taskId: string
-): SolutionForAdditionProblem => ({
-    taskId: taskId,
-    type: TaskType.Addition,
-    sum: answer,
-})
-
-const createAddTaskAction = (max: number): PracticeTask => {
-  const a = getRandomInt(max + 1)
-  const b = getRandomInt(max + 1)
-  return {
-    problem: {
-      addends: [a, b],
-    },
-    taskId: uuidv4(),
-    type: TaskType.Addition,
-    wantSum: a + b,
-  }
-}
-
-const Runway: FC<Props> = function ({ className, max }) {
+const Runway: FC<Props> = function ({ className }) {
   const dispatch = useAppDispatch();
   const state = useAppSelector(selectWholePracticeState);
 
   const isInitialRender = useRef(true);// in react, when refs are changed component dont re-render 
 
-  const addOneMore = (answer: number, taskId: string) => {
-    dispatch(applySolution(createApplySolutionAction(answer, taskId)))
-    dispatch(addTask(createAddTaskAction(max)))
+  const addOneMore = (solution: Solution, taskId: string) => {
+    dispatch(applySolution(createApplySolutionAction(solution, taskId)))
+    dispatch(addTask(createAddTaskAction()))
   }
 
   useEffect(() => {
@@ -51,40 +23,27 @@ const Runway: FC<Props> = function ({ className, max }) {
       return;
     }
 
-    dispatch(addTask(createAddTaskAction(max)))
+    dispatch(addTask(createAddTaskAction()))
   }, []);
-
-
-  // const additionTaskToProps = (task: AdditionTask): AdditionProps => {
-
-
-  //   const addends = task.problem.addends
-  //   const submitted = task.gotSum !== undefined
-  //   const initialValue = task.gotSum === undefined ? '' : String(task.gotSum)
-  //   const isCorrect = task.solution?.sum === task.gotSum
-  //   const onSubmit = (a: string) => addOneMore(Number(a), task.taskId)
-
-  //   return {
-  //     addends, submitted, initialValue, onSubmit
-  //   }
-  // }
-
 
   return (
     <div className={`${className} status-${state.status}`}>
       {state.practiceTasks
-        .filter(t => state.status === 'started' || t.gotSum !== undefined)
-        .map((task) => (
-          <div className="each" key={task.taskId}>
+        .filter(t => state.status === 'started' || t.solution !== undefined)
+        .map((task) => {
 
-            <Addition
-                addends={task.problem.addends}
-                submitted={task.gotSum !== undefined}
-                initialValue={task.gotSum === undefined ? '' : String(task.gotSum) }
-                isCorrect={task.wantSum === task.gotSum}
-                onSubmit={(a: string) => addOneMore(Number(a), task.taskId)} />
-          </div>
-        ))
+          switch (task.type) {
+            case TaskType.Addition:
+              const onSolve = (solution: AdditionSolution) => addOneMore(solution, task.taskId)
+              return (<div className="each" key={task.taskId}>
+                <Addition {...additionTaskToProps(task as AdditionTask, onSolve)}/>
+              </div>)
+            default:
+              return (<div className="each" key={task.taskId}>
+                what is the task type?
+              </div>)
+          }
+        })
       }
     </div>
   )
@@ -145,7 +104,6 @@ const StyledRunway = styled(Runway)`
 
 type Props = {
   className?: string
-  max: number
 };
 
 export default StyledRunway;

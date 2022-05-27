@@ -25,23 +25,3 @@ export interface Task<P extends Problem, S extends Solution> {
   solution?: S,
 }
 
-interface AdditionProblem extends Problem {
-  addends: number[]
-}
-
-interface AdditionSolution extends Solution {
-  sum: number
-}
-
-export interface AdditionTask extends Task<AdditionProblem, AdditionSolution> {
-  taskId: string
-  type: TaskType.Addition
-}
-
-const t1: AdditionTask = {
-  taskId: "",
-  type: TaskType.Addition,
-  problem: {
-    addends: [1, 2]
-  }
-}

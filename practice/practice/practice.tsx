@@ -22,7 +22,7 @@ const NotStartedPractice: FC = () => {
 const StartedPractice: FC = () => {
   return (
     <StickyHeaderFor header={<RealTimeMonitor />}> 
-      <Runway max={10} />
+      <Runway />
     </StickyHeaderFor>
   )
 }
@@ -30,7 +30,7 @@ const StartedPractice: FC = () => {
 const FinishedPractice: FC = () => {
   return (
     <StickyHeaderFor header={<RealTimeMonitor />}> 
-      <Runway max={10} />
+      <Runway />
       this is finished
     </StickyHeaderFor>
   )

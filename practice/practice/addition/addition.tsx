@@ -1,11 +1,26 @@
 import React, { FC, useEffect, useRef, useState } from "react";
+import { Problem, Solution, Task, TaskType } from "../types";
+import {v4 as uuidv4} from 'uuid';
+
+export interface AdditionProblem extends Problem {
+  addends: number[]
+}
+
+export interface AdditionSolution extends Solution {
+  sum: number
+}
+
+export interface AdditionTask extends Task<AdditionProblem, AdditionSolution> {
+  taskId: string
+  type: TaskType.Addition
+}
 
 export type AdditionProps = {
   addends: number[]
   submitted: boolean
   initialValue: string
   isCorrect?: boolean
-  onSubmit: (value: string) => void
+  onSolve: (solution: AdditionSolution) => void
 };
 
 const Addition: FC<AdditionProps> = function ({
@@ -13,7 +28,7 @@ const Addition: FC<AdditionProps> = function ({
   submitted,
   initialValue,
   isCorrect,
-  onSubmit
+  onSolve
 }) {
   const [value, setValue] = useState<string>(initialValue);
 
@@ -23,7 +38,9 @@ const Addition: FC<AdditionProps> = function ({
       return
     }
 
-    onSubmit(value);
+    onSolve({
+      sum: Number(value)
+    });
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
   }
   const handleChange = (event: any) => {
@@ -56,3 +73,34 @@ const Addition: FC<AdditionProps> = function ({
 };
 
 export default Addition;
+
+export const additionTaskToProps = (
+  task: AdditionTask,
+  onSolve: (solution: AdditionSolution) => void
+): AdditionProps => {
+  const addends = task.problem.addends
+  const submitted = task.solution !== undefined
+  const initialValue = task.solution === undefined
+    ? ''
+    : String(task.solution.sum)
+  const isCorrect = task.solution?.sum === task.problem.addends.reduce((a, b) => a + b)
+  
+  return { addends, submitted, initialValue, onSolve, isCorrect}
+}
+
+export const createAddTaskAction = (): Task<AdditionProblem, AdditionSolution> => {
+  const max = 10
+  function getRandomInt(max: number) {
+    return Math.floor(Math.random() * max);
+  }
+  
+  const a = getRandomInt(max + 1)
+  const b = getRandomInt(max + 1)
+  return {
+    problem: {
+      addends: [a, b],
+    },
+    taskId: uuidv4(),
+    type: TaskType.Addition,
+  }
+}

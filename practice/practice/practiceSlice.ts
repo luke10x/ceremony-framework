@@ -3,28 +3,12 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import type { RootState } from '../app/store';
+import { Problem, Solution, Task, TaskType } from './types';
 
-type AdditionPracticeTask = {
+export interface ApplySolutionAction {
   taskId: string
-  type: TaskType.Addition
-  problem: {
-    addends: number[]
-  }
-  wantSum: number
-  gotSum?: number
+  solution: Solution
 }
-
-type AdditionSolution = {
-  taskId: string
-  type: TaskType.Addition
-  sum: number
-}
-
-export type TaskSolution = AdditionSolution
-
-export type SolutionForAdditionProblem = AdditionSolution
-
-export type PracticeTask = AdditionPracticeTask
 
 export type PracticeStatus = 'not-started' | 'started' | 'finished'
 
@@ -32,24 +16,8 @@ export interface PracticeState {
   practiceId: string
   status: PracticeStatus
   practiceType: TaskType
-  practiceTasks: PracticeTask[]
+  practiceTasks: Task<Problem, Solution>[]
 };
-
-export enum TaskType {
-  Addition = 'ADDITION',
-  Multiplication = 'MULTIPLICATION',
-}
-
-export function deserializeTaskType(str: any): TaskType {
-  switch (str) {
-    case 'ADDITION':
-      return TaskType.Addition;
-    case 'MULTIPLICATION':
-      return TaskType.Multiplication;
-    default:
-      throw new Error(`Cannot parse "${str}" to type`)
-  }
-}
 
 const initialState: PracticeState = {
   practiceId: '',
@@ -57,6 +25,8 @@ const initialState: PracticeState = {
   practiceType: TaskType.Addition,
   practiceTasks: [],
 };
+
+// Reducers:
 
 const practiceSlice = createSlice({
   name: 'practice',
@@ -72,21 +42,25 @@ const practiceSlice = createSlice({
         state.status = 'finished';
       }
     },
-    addTask: (state, action: PayloadAction<PracticeTask>) => {
+    addTask: (state, action: PayloadAction<Task<Problem, Solution>>) => {
       if (state.status === 'started') {
         state.practiceTasks.push(action.payload);
       }
     },
-    applySolution: (state, action: PayloadAction<TaskSolution>) => {
+    applySolution: (state, action: PayloadAction<ApplySolutionAction>) => {
       if (state.status === 'started') {
         const task = state.practiceTasks.find((t) => t.taskId == action.payload.taskId)
         if (task) {
-          task.gotSum = action.payload.sum
+          task.solution = action.payload.solution
         }
       }
     }
   }, 
 });
+
+export default practiceSlice.reducer;
+
+// Actions:
 
 export const {
   start,
@@ -95,6 +69,14 @@ export const {
   applySolution,
 } = practiceSlice.actions;
 
-export const selectWholePracticeState = (state: RootState) => state.practice;
+export const createApplySolutionAction = (
+  solution: Solution,
+  taskId: string
+): ApplySolutionAction => ({
+    taskId: taskId,
+    solution,
+})
 
-export default practiceSlice.reducer;
+// Selectors: 
+
+export const selectWholePracticeState = (state: RootState) => state.practice;
