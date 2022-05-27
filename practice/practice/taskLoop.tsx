@@ -4,7 +4,7 @@ import { keyframes } from 'styled-components'
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { addTask, selectWholePracticeState, applySolution, createApplySolutionAction } from "./practiceSlice";
 import { createAddTaskAction } from "./addition/addition";
-import { Solution } from "./types";
+import { Solution, TaskType } from "./types";
 import TaskSwitch from "./taskSwitch";
 
 const TaskLoop: FC<Props> = function ({ className }) {
@@ -13,7 +13,7 @@ const TaskLoop: FC<Props> = function ({ className }) {
 
   const isInitialRender = useRef(true);// in react, when refs are changed component dont re-render 
 
-  const addOneMore = (solution: Solution, taskId: string) => {
+  const addOneMore = (solution: Solution<TaskType>, taskId: string) => {
     dispatch(applySolution(createApplySolutionAction(solution, taskId)))
     dispatch(addTask(createAddTaskAction()))
   }
@@ -32,7 +32,7 @@ const TaskLoop: FC<Props> = function ({ className }) {
       {state.practiceTasks
         .filter(t => state.status === 'started' || t.solution !== undefined)
         .map((task) => {
-          const onSolve = (solution: Solution) => addOneMore(solution, task.taskId)
+          const onSolve = (solution: Solution<TaskType>) => addOneMore(solution, task.taskId)
           return <TaskSwitch task={task} onSolve={onSolve} />
         })
       }

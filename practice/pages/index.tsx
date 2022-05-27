@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
+import Catalog from '../catalog/catalog'
 
 const Home: NextPage = () => {
   return (
@@ -13,11 +14,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <p>Practice addition for 5 minutes.</p>
-        <p>How much you can score?</p>
-        <Link href="/practice">
-          <a>Go to practice</a>
-        </Link>
+        <Catalog />
       </main>
 
       <footer className={styles.footer}>

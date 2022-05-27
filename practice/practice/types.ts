@@ -1,7 +1,3 @@
-export interface Solution {}
-
-export interface Problem {}
-
 export enum TaskType {
   Addition = 'ADDITION',
   Multiplication = 'MULTIPLICATION',
@@ -18,10 +14,26 @@ export function deserializeTaskType(str: any): TaskType {
   }
 }
 
-export interface Task<P extends Problem, S extends Solution> {
+export interface Solution<T extends TaskType> {}
+
+export interface Problem<T extends TaskType> {}
+
+export interface Task<
+  T extends TaskType,
+  P extends Problem<T>,
+  S extends Solution<T>
+> {
   taskId: string
-  type: TaskType
+  type: T
   problem: P
   solution?: S,
 }
 
+export interface TaskConfig<T extends TaskType> {
+  type: T
+}
+
+export interface PracticeConfig {
+  timeboxSeconds: number
+  taskConfigs: TaskConfig<TaskType>[]
+}

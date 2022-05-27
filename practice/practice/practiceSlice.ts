@@ -3,11 +3,12 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import type { RootState } from '../app/store';
+import { select } from '../catalog/catalogSlice';
 import { Problem, Solution, Task, TaskType } from './types';
 
 export interface ApplySolutionAction {
   taskId: string
-  solution: Solution
+  solution: Solution<TaskType>
 }
 
 export type PracticeStatus = 'not-started' | 'started' | 'finished'
@@ -15,14 +16,12 @@ export type PracticeStatus = 'not-started' | 'started' | 'finished'
 export interface PracticeState {
   practiceId: string
   status: PracticeStatus
-  practiceType: TaskType
-  practiceTasks: Task<Problem, Solution>[]
+  practiceTasks: Task<TaskType, Problem<TaskType>, Solution<TaskType>>[]
 };
 
 const initialState: PracticeState = {
   practiceId: '',
   status: 'not-started',
-  practiceType: TaskType.Addition,
   practiceTasks: [],
 };
 
@@ -42,7 +41,7 @@ const practiceSlice = createSlice({
         state.status = 'finished';
       }
     },
-    addTask: (state, action: PayloadAction<Task<Problem, Solution>>) => {
+    addTask: (state, action: PayloadAction<Task<TaskType, Problem<TaskType>, Solution<TaskType>>>) => {
       if (state.status === 'started') {
         state.practiceTasks.push(action.payload);
       }
@@ -55,7 +54,12 @@ const practiceSlice = createSlice({
         }
       }
     }
-  }, 
+  },
+  extraReducers: (builder) => {
+    builder.addCase(select, state => {
+      state.status = "not-started"
+    });
+  }
 });
 
 export default practiceSlice.reducer;
@@ -70,7 +74,7 @@ export const {
 } = practiceSlice.actions;
 
 export const createApplySolutionAction = (
-  solution: Solution,
+  solution: Solution<TaskType>,
   taskId: string
 ): ApplySolutionAction => ({
     taskId: taskId,

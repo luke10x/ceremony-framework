@@ -4,12 +4,14 @@ import TaskLoop from "./taskLoop";
 import RealTimeMonitor from '../components/realtime-monitor'
 import { selectWholePracticeState, start } from "./practiceSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { selectSelected } from "../catalog/catalogSlice";
 
 const NotStartedPractice: FC = () => {
   const dispatch = useAppDispatch();
+  const selected = useAppSelector(selectSelected)
   return (
     <StickyHeaderFor header={<RealTimeMonitor />}> 
-      <div>Practice is about to start...</div>
+      <div>Practice "{selected.title}" is about to start...</div>
       <button onClick={() => dispatch(start())}>Start</button>
     </StickyHeaderFor>
   )

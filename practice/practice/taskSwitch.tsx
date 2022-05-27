@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import Addition, { AdditionSolution, AdditionTask, additionTaskToProps } from "./addition/addition";
-import { Problem, Solution, Task, TaskType } from "./types";
+import { Problem, Solution, Task, TaskConfig, TaskType } from "./types";
 
-const TaskSwitch: FC<Props> = function ({ task, onSolve }) {
+const TaskSwitch: FC<Props<TaskType>> = function ({ task, onSolve }) {
   switch (task.type) {
     case TaskType.Addition:
       return (<div className="each" key={task.taskId}>
@@ -18,9 +18,9 @@ const TaskSwitch: FC<Props> = function ({ task, onSolve }) {
   }
 }
 
-type Props = {
-  task: Task<Problem, Solution>
-  onSolve: (solution: Solution) => void
+type Props<T extends TaskType> = {
+  task: Task<T, Problem<T>, Solution<T>>
+  onSolve: (solution: Solution<T>) => void
 };
 
 export default TaskSwitch;
