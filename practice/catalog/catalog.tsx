@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import { CatalogOption, select } from "./catalogSlice";
 import { useAppDispatch } from "../app/hooks";
+import Link from "next/link";
 
 const options: CatalogOption[] = [
   {
@@ -46,6 +47,11 @@ const Catalog: FC<Props> = function ({className}) {
           </button>
         </div>
       ))}
+      <div className="option">
+        <Link href="/practice">
+          <a>Just go back to current practice</a>
+        </Link>
+      </div>
   </div>)
 }
 

@@ -2,14 +2,14 @@ import React, { FC, useEffect, useRef } from "react";
 import styled from 'styled-components';
 import { keyframes } from 'styled-components'
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { addTask, selectWholePracticeState, applySolution, createApplySolutionAction } from "./practiceSlice";
+import { addTask, selectCurrentPractice, applySolution, createApplySolutionAction } from "./practiceSlice";
 import { createAddTaskAction } from "./addition/addition";
 import { Solution, TaskType } from "./types";
 import TaskSwitch from "./taskSwitch";
 
 const TaskLoop: FC<Props> = function ({ className }) {
   const dispatch = useAppDispatch();
-  const state = useAppSelector(selectWholePracticeState);
+  const practice = useAppSelector(selectCurrentPractice);
 
   const isInitialRender = useRef(true);// in react, when refs are changed component dont re-render 
 
@@ -28,9 +28,9 @@ const TaskLoop: FC<Props> = function ({ className }) {
   }, []);
 
   return (
-    <div className={`${className} status-${state.status}`}>
-      {state.practiceTasks
-        .filter(t => state.status === 'started' || t.solution !== undefined)
+    <div className={`${className} status-${practice.status}`}>
+      {practice.practiceTasks
+        .filter(t => practice.status === 'started' || t.solution !== undefined)
         .map((task) => {
           const onSolve = (solution: Solution<TaskType>) => addOneMore(solution, task.taskId)
           return <TaskSwitch task={task} onSolve={onSolve} />

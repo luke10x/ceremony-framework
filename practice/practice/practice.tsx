@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import StickyHeaderFor from "../components/StickyHeaderFor";
 import TaskLoop from "./taskLoop";
 import RealTimeMonitor from '../components/realtime-monitor'
-import { selectWholePracticeState, start } from "./practiceSlice";
+import { selectCurrentPractice, start } from "./practiceSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { selectSelected } from "../catalog/catalogSlice";
 
@@ -35,7 +35,7 @@ const FinishedPractice: FC = () => {
 }
 
 const Practice: FC<Props> = function ({className}) {
-  const practice = useAppSelector(selectWholePracticeState);
+  const practice = useAppSelector(selectCurrentPractice);
   const status = practice.status
   return (<div className={className}>
     {status === 'not-started' && <NotStartedPractice />}

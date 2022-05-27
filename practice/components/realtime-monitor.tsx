@@ -1,6 +1,6 @@
 import React, { FC, FunctionComponent, useEffect, useReducer, useRef, useState } from "react";
 import styled from "styled-components";
-import { finish, selectWholePracticeState } from "../practice/practiceSlice";
+import { finish, selectCurrentPractice } from "../practice/practiceSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CountDownTimer from "./countdown-timer";
 
@@ -9,7 +9,7 @@ type RealtimeMonitorProps = {
 }
 
 const RealtimeMonitor: FC<RealtimeMonitorProps> = function ({className}) {
-  const practice = useAppSelector(selectWholePracticeState);
+  const practice = useAppSelector(selectCurrentPractice);
   const dispatch = useAppDispatch();
 
   return (<div className={className}>

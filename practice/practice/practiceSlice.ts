@@ -14,15 +14,19 @@ export interface ApplySolutionAction {
 export type PracticeStatus = 'not-started' | 'started' | 'finished'
 
 export interface PracticeState {
-  practiceId: string
-  status: PracticeStatus
-  practiceTasks: Task<TaskType, Problem<TaskType>, Solution<TaskType>>[]
+  current: {
+    practiceId: string
+    status: PracticeStatus
+    practiceTasks: Task<TaskType, Problem<TaskType>, Solution<TaskType>>[]  
+  }
 };
 
 const initialState: PracticeState = {
-  practiceId: '',
-  status: 'not-started',
-  practiceTasks: [],
+  current: {
+    practiceId: '',
+    status: 'not-started',
+    practiceTasks: [],
+  }
 };
 
 // Reducers:
@@ -32,23 +36,26 @@ const practiceSlice = createSlice({
   initialState,
   reducers: {
     start: state => {
-      if (state.status === 'not-started') {
-        state.status = 'started';
+      if (state.current.status === 'not-started') {
+        state.current.status = 'started';
       }
     },
     finish: state => {
-      if (state.status === 'started') {
-        state.status = 'finished';
+      if (state.current.status === 'started') {
+        state.current.status = 'finished';
       }
     },
-    addTask: (state, action: PayloadAction<Task<TaskType, Problem<TaskType>, Solution<TaskType>>>) => {
-      if (state.status === 'started') {
-        state.practiceTasks.push(action.payload);
+    addTask: (
+      state, 
+      action: PayloadAction<Task<TaskType, Problem<TaskType>, Solution<TaskType>>>
+    ) => {
+      if (state.current.status === 'started') {
+        state.current.practiceTasks.push(action.payload);
       }
     },
     applySolution: (state, action: PayloadAction<ApplySolutionAction>) => {
-      if (state.status === 'started') {
-        const task = state.practiceTasks.find((t) => t.taskId == action.payload.taskId)
+      if (state.current.status === 'started') {
+        const task = state.current.practiceTasks.find((t) => t.taskId == action.payload.taskId)
         if (task) {
           task.solution = action.payload.solution
         }
@@ -57,7 +64,8 @@ const practiceSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(select, state => {
-      state.status = "not-started"
+      state.current.status = "not-started"
+      state.current.practiceTasks = []
     });
   }
 });
@@ -83,4 +91,4 @@ export const createApplySolutionAction = (
 
 // Selectors: 
 
-export const selectWholePracticeState = (state: RootState) => state.practice;
+export const selectCurrentPractice = (state: RootState) => state.practice.current;
