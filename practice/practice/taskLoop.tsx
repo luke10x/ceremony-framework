@@ -3,19 +3,21 @@ import styled from 'styled-components';
 import { keyframes } from 'styled-components'
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { addTask, selectCurrentPractice, applySolution, createApplySolutionAction } from "./practiceSlice";
-import { createAddTaskAction } from "./addition/addition";
+import { createTask } from "./taskProvicer";
 import { Solution, TaskType } from "./types";
 import TaskSwitch from "./taskSwitch";
+import { selectSelected } from "../catalog/catalogSlice";
 
 const TaskLoop: FC<Props> = function ({ className }) {
   const dispatch = useAppDispatch();
   const practice = useAppSelector(selectCurrentPractice);
+  const selected = useAppSelector(selectSelected);
 
   const isInitialRender = useRef(true);// in react, when refs are changed component dont re-render 
 
   const addOneMore = (solution: Solution<TaskType>, taskId: string) => {
     dispatch(applySolution(createApplySolutionAction(solution, taskId)))
-    dispatch(addTask(createAddTaskAction()))
+    dispatch(addTask(createTask(selected.config.taskConfigs)))
   }
 
   useEffect(() => {
@@ -24,7 +26,7 @@ const TaskLoop: FC<Props> = function ({ className }) {
       return;
     }
 
-    dispatch(addTask(createAddTaskAction()))
+    dispatch(addTask(createTask(selected.config.taskConfigs)))
   }, []);
 
   return (

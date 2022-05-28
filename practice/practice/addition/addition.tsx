@@ -2,15 +2,15 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import { Problem, Solution, Task, TaskType } from "../types";
 import {v4 as uuidv4} from 'uuid';
 
-export interface AdditionProblem extends Problem {
+export interface AdditionProblem extends Problem<TaskType.Addition> {
   addends: number[]
 }
 
-export interface AdditionSolution extends Solution {
+export interface AdditionSolution extends Solution<TaskType.Addition> {
   sum: number
 }
 
-export interface AdditionTask extends Task<AdditionProblem, AdditionSolution> {
+export interface AdditionTask extends Task<TaskType.Addition, AdditionProblem, AdditionSolution> {
   taskId: string
   type: TaskType.Addition
 }
@@ -88,7 +88,7 @@ export const additionTaskToProps = (
   return { addends, submitted, initialValue, onSolve, isCorrect}
 }
 
-export const createAddTaskAction = (): Task<AdditionProblem, AdditionSolution> => {
+export const createAddAdditionTaskAction = (): Task<TaskType.Addition, AdditionProblem, AdditionSolution> => {
   const max = 10
   function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);

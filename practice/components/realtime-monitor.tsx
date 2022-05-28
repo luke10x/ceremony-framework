@@ -23,10 +23,9 @@ const RealtimeMonitor: FC<RealtimeMonitorProps> = function ({className}) {
     <div className="time_remaining_label">Time remaining:</div>
     <div className="time_remaining">
       <CountDownTimer
-          startedAt={practice.startedAt}
-          durationInMs={120 * 1000}
-          onFinish={() => dispatch(finish())}
-         />
+        startedAt={practice.startedAt}
+        durationInMs={practice.durationInMs}
+        onFinish={() => dispatch(finish())} />
     </div>
   </div>)
 }
