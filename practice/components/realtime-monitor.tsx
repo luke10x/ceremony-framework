@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { finish, selectCurrentPractice } from "../practice/practiceSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CountDownTimer from "./countdown-timer";
+import Link from "next/link";
 
 type RealtimeMonitorProps = {
   className?: string
@@ -13,13 +14,19 @@ const RealtimeMonitor: FC<RealtimeMonitorProps> = function ({className}) {
   const dispatch = useAppDispatch();
 
   return (<div className={className}>
+    <div>
+
+      <Link href="/"><a>BACK</a></Link>
+    </div>
     <div className="points_label">Points:</div>
     <div className="points">0</div>
     <div className="time_remaining_label">Time remaining:</div>
     <div className="time_remaining">
-      <CountDownTimer totalSeconds={practice.status === 'finished' ? 0 : 10}
+      <CountDownTimer
+          startedAt={practice.startedAt}
+          durationInMs={120 * 1000}
           onFinish={() => dispatch(finish())}
-          started={practice.status == 'started'} />
+         />
     </div>
   </div>)
 }

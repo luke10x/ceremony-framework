@@ -12,7 +12,7 @@ const NotStartedPractice: FC = () => {
   return (
     <StickyHeaderFor header={<RealTimeMonitor />}> 
       <div>Practice "{selected.title}" is about to start...</div>
-      <button onClick={() => dispatch(start())}>Start</button>
+      <button onClick={() => dispatch(start((new Date()).getTime()))}>Start</button>
     </StickyHeaderFor>
   )
 }

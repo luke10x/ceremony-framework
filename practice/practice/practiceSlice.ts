@@ -17,7 +17,8 @@ export interface PracticeState {
   current: {
     practiceId: string
     status: PracticeStatus
-    practiceTasks: Task<TaskType, Problem<TaskType>, Solution<TaskType>>[]  
+    practiceTasks: Task<TaskType, Problem<TaskType>, Solution<TaskType>>[]
+    startedAt?: number
   }
 };
 
@@ -35,9 +36,10 @@ const practiceSlice = createSlice({
   name: 'practice',
   initialState,
   reducers: {
-    start: state => {
+    start: (state, action: PayloadAction<Number>) => {
       if (state.current.status === 'not-started') {
         state.current.status = 'started';
+        state.current.startedAt = action.payload.valueOf()
       }
     },
     finish: state => {
@@ -66,6 +68,7 @@ const practiceSlice = createSlice({
     builder.addCase(select, state => {
       state.current.status = "not-started"
       state.current.practiceTasks = []
+      state.current.startedAt = undefined
     });
   }
 });

@@ -3,56 +3,58 @@ import React, { FC } from 'react'
 import { useState, useEffect } from 'react';
 
 type CountDownTimerProps = {
-  totalSeconds: number
+  startedAt?: number
+  durationInMs: number
   onFinish: () => void
-  started: boolean
 }
 
-const CountDownTimer: FC<CountDownTimerProps> = ({totalSeconds = 120, onFinish, started}) => {
-
-  const [ elapsedSeconds, setElapsedSeconds ] = useState(0);
+const CountDownTimer: FC<CountDownTimerProps> = ({ startedAt, durationInMs, onFinish }) => {
+  const [ endTime, setEndTime] = useState(0);
+  const [ currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
 
-    if (!started) {
+    if (startedAt === undefined) {
       return () => {}
     }
+    
+    setCurrentTime((new Date()).getTime())    
+    setEndTime(startedAt + durationInMs)
 
     const timeout = setTimeout(
       () => {
         clearInterval(tick)
-        setElapsedSeconds(totalSeconds)
         onFinish()
       },
-      totalSeconds * 1000
+      durationInMs
     )
 
-    const startSeconds = Math.floor(Number(new Date()) / 1000)
     let tick = setInterval(
       () => {
-        const nowSeconds = Math.floor(Number(new Date()) / 1000);
-        setElapsedSeconds(nowSeconds - startSeconds)
+        setCurrentTime((new Date()).getTime())
       },
       1000
     )
 
-    return ()=> {
+    return () => {
       clearTimeout(timeout);
       clearInterval(tick);
     };
-  }, [started]);
+  }, [startedAt]);
 
-  const remainingSeconds = totalSeconds - elapsedSeconds;
+  let remainingSeconds = Math.floor((endTime - currentTime) / 1000);
+  if (remainingSeconds < 0) {
+    remainingSeconds = 0
+  }
 
   let hours   = Math.floor(remainingSeconds / 3600); // get hours
   let minutes = Math.floor((remainingSeconds - (hours * 3600)) / 60); // get minutes
   let seconds = remainingSeconds - (hours * 3600) - (minutes * 60); //  get seconds
-  if (seconds < 0) seconds = 0
 
   return (<>
     <span>
-      {/* {hours < 10 ?  `0${hours}` : hours}
-      : */}
+      {hours < 10 ?  `0${hours}` : hours}
+      :
       {minutes < 10 ?  `0${minutes}` : minutes}
       :
       {seconds < 10 ?  `0${seconds}` : seconds}

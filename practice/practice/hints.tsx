@@ -31,7 +31,6 @@ const StyledHints = styled(Hints)`
   @media (min-aspect-ratio: 1/1) {
     .hint {
       flex: 1 0 100px;
-
     }
     background: #f9a;
   }
