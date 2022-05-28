@@ -9,7 +9,7 @@ const TaskSwitch: FC<Props<TaskType>> = function ({ task, onSolve }) {
         <Addition {...additionTaskToProps(
           task as AdditionTask,
           onSolve as (solution: AdditionSolution) => void
-        )}/>
+        )} solvedSum={(task as AdditionTask).solution?.sum.toString()} />
       </div>)
     default:
       return (<div className="each" key={task.taskId}>

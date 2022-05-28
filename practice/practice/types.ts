@@ -27,6 +27,7 @@ export interface Task<
   type: T
   problem: P
   solution?: S,
+  hints: S[],
 }
 
 export interface TaskConfig<T extends TaskType> {

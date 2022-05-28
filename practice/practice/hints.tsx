@@ -1,13 +1,38 @@
 import React, { FC } from "react";
 import styled from "styled-components";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { selectSelected } from "../catalog/catalogSlice";
+import { AdditionSolution, AdditionTask } from "./addition/addition";
+import { addTask, applySolution, createApplySolutionAction, selectCurrentPractice } from "./practiceSlice";
+import { createTask } from "./taskProvicer";
+import { Solution, TaskType } from "./types";
+
+const hintToStr = (taskType: TaskType, s: Solution<TaskType>) => {
+  switch (taskType) {
+    case TaskType.Addition:
+      return (s as AdditionSolution).sum
+    default:
+      throw new Error("not available hint for task type: " + taskType)
+  }
+}
 
 const Hints: FC<Props> = ({ className }) => {
+  const dispatch = useAppDispatch();
+  const selected = useAppSelector(selectSelected);
+  const addOneMore = (solution: Solution<TaskType>, taskId: string) => {
+    dispatch(applySolution(createApplySolutionAction(solution, taskId)))
+    dispatch(addTask(createTask(selected.config.taskConfigs)))
+  }
+  const practice = useAppSelector(selectCurrentPractice)
+  const unsolvedTask = practice.practiceTasks.find(x => x.solution === undefined)
+
   return (
     <div className={className}> 
-      <button className="hint">2</button>
-      <button className="hint">6</button>
-      <button className="hint">11</button>
-      <button className="hint">15</button>
+      {unsolvedTask?.hints.map((h, key) => (
+        <button key={key} onClick={() => addOneMore(h, unsolvedTask.taskId)} className="hint">
+          {hintToStr(unsolvedTask.type, h)}
+        </button>
+      ))}
     </div>
   )
 }
@@ -25,6 +50,7 @@ const StyledHints = styled(Hints)`
     padding: 15px;
     margin: 5px;
     border: 1px dotted green;
+    cursor: pointer;
   }
 
   /* for landscape view: */

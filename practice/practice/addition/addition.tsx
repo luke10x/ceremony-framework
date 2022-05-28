@@ -20,7 +20,8 @@ const Addition: FC<Props> = function ({
   submitted,
   initialValue,
   isCorrect,
-  onSolve
+  onSolve,
+  solvedSum
 }) {
   const [value, setValue] = useState<string>(initialValue);
 
@@ -48,7 +49,7 @@ const Addition: FC<Props> = function ({
   if (submitted) {
     return (
       <div>
-        {addends[0]} + {addends[1]} = {value}
+        {addends[0]} + {addends[1]} = {solvedSum}
         {isCorrect && <span role="img" aria-label="Correct!">✅</span>}
         {!isCorrect && <span role="img" aria-label="Wrong!">⛔</span>}
       </div>
@@ -70,6 +71,7 @@ type Props = {
   initialValue: string
   isCorrect?: boolean
   onSolve: (solution: AdditionSolution) => void
+  solvedSum?: string
 };
 
 export default Addition;
@@ -85,7 +87,7 @@ export const additionTaskToProps = (
     : String(task.solution.sum)
   const isCorrect = task.solution?.sum === task.problem.addends.reduce((a, b) => a + b)
   
-  return { addends, submitted, initialValue, onSolve, isCorrect}
+  return { addends, submitted, initialValue, onSolve, isCorrect }
 }
 
 export const createAddAdditionTaskAction = (): Task<TaskType.Addition, AdditionProblem, AdditionSolution> => {
@@ -94,13 +96,31 @@ export const createAddAdditionTaskAction = (): Task<TaskType.Addition, AdditionP
     return Math.floor(Math.random() * max);
   }
   
+
   const a = getRandomInt(max + 1)
   const b = getRandomInt(max + 1)
+
+  const correct = [a, b].reduce((a, b) => a + b)
+  const hints = [
+     0,  1,  2,  3,  4,  5,  6,  7,  8,  9,
+    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    20
+  ]
+    .filter(x => x !== correct)
+    .slice(0, 3)
+    .concat([correct])
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
+    .map(n => ({ sum: n }))
+
+
   return {
     problem: {
       addends: [a, b],
     },
     taskId: uuidv4(),
     type: TaskType.Addition,
+    hints,
   }
 }
