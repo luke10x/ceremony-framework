@@ -51,10 +51,14 @@ const practiceSlice = createSlice({
       state, 
       action: PayloadAction<Task<TaskType, Problem<TaskType>, Solution<TaskType>>>
     ) => {
+
       if (state.current.status === 'started') {
+        state.current.practiceTasks
+          = state.current.practiceTasks.filter(t => t.solution !== undefined)
+      
         state.current.practiceTasks.push(action.payload);
       }
-    },
+},
     applySolution: (state, action: PayloadAction<ApplySolutionAction>) => {
       if (state.current.status === 'started') {
         const task = state.current.practiceTasks.find((t) => t.taskId == action.payload.taskId)
