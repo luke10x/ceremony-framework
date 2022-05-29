@@ -35,7 +35,6 @@ const Addition: FC<Props> = function ({
     onSolve({
       sum: Number(value)
     });
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
   }
   const handleChange = (event: any) => {
     const newVal = event.target.value

@@ -22,6 +22,12 @@ const Hints: FC<Props> = ({ className }) => {
   const addOneMore = (solution: Solution<TaskType>, taskId: string) => {
     dispatch(applySolution(createApplySolutionAction(solution, taskId)))
     dispatch(addTask(createTask(selected.config.taskConfigs)))
+
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+    setTimeout(
+      () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }),
+      400
+    )
   }
   const practice = useAppSelector(selectCurrentPractice)
   const unsolvedTask = practice.practiceTasks.find(x => x.solution === undefined)

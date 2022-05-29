@@ -18,6 +18,12 @@ const TaskLoop: FC<Props> = function ({ className }) {
   const addOneMore = (solution: Solution<TaskType>, taskId: string) => {
     dispatch(applySolution(createApplySolutionAction(solution, taskId)))
     dispatch(addTask(createTask(selected.config.taskConfigs)))
+
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+    setTimeout(
+      () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }),
+      400
+    )
   }
 
   useEffect(() => {
@@ -85,7 +91,7 @@ const StyledTaskLoop = styled(TaskLoop)`
 
   &.status-started .each:not(:last-child) {
     animation-name: ${smallDown};
-    animation-duration: 1.2s;
+    animation-duration: .8s;
     animation-iteration-count: 1;
   }
 
