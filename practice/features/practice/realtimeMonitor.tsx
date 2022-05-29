@@ -1,8 +1,8 @@
 import React, { FC, FunctionComponent, useEffect, useReducer, useRef, useState } from "react";
 import styled from "styled-components";
-import { finish, selectCurrentPractice } from "../practice/practiceSlice";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import CountDownTimer from "./countdown-timer";
+import { finish, selectCurrentPractice } from "./practiceSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import CountDownTimer from "./countdownTimer";
 import Link from "next/link";
 
 type RealtimeMonitorProps = {

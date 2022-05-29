@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styled from "styled-components";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectSelected } from "../catalog/catalogSlice";
 import { AdditionSolution, AdditionTask } from "./addition/addition";
 import { addTask, applySolution, createApplySolutionAction, selectCurrentPractice } from "./practiceSlice";

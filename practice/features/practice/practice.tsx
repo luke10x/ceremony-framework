@@ -1,9 +1,9 @@
 import React, { FC } from "react";
-import StickyHeaderFor from "../components/StickyHeaderFor";
+import StickyHeaderFor from "../../components/StickyHeaderFor";
 import TaskLoop from "./taskLoop";
-import RealTimeMonitor from '../components/realtime-monitor'
+import RealTimeMonitor from './realtimeMonitor'
 import { selectCurrentPractice, start } from "./practiceSlice";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectSelected } from "../catalog/catalogSlice";
 
 const NotStartedPractice: FC = () => {

@@ -6,8 +6,8 @@ import {
 import counterReducer from '../features/counter/counterSlice';
 import { enterprizeCounterReducer } from '../features/enterprizeCounter/slice';
 import kanyeReducer from '../features/ye/kanyeSlice';
-import practiceReducer from '../practice/practiceSlice';
-import catalogReducer from '../catalog/catalogSlice';
+import practiceReducer from '../features/practice/practiceSlice';
+import catalogReducer from '../features/catalog/catalogSlice';
 
 export const store = configureStore({
   reducer: {

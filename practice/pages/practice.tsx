@@ -2,9 +2,9 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import PracticeComponent from '../practice/practice'
+import PracticeComponent from '../features/practice/practice'
 import styled from 'styled-components'
-import Hints from '../practice/hints'
+import Hints from '../features/practice/hints'
 
 const Main = styled.main`
   margin: 0; padding: 0;

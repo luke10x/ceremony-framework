@@ -3,7 +3,7 @@ import { TaskType } from "../practice/types";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { CatalogOption, select } from "./catalogSlice";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import Link from "next/link";
 
 const options: CatalogOption[] = [

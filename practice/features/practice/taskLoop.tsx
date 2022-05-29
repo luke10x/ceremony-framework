@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useRef } from "react";
 import styled from 'styled-components';
 import { keyframes } from 'styled-components'
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { addTask, selectCurrentPractice, applySolution, createApplySolutionAction } from "./practiceSlice";
 import { createTask } from "./taskProvicer";
 import { Solution, TaskType } from "./types";

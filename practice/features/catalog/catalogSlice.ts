@@ -2,7 +2,7 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import type { RootState } from '../app/store';
+import type { RootState } from '../../app/store';
 import { PracticeConfig, TaskType } from '../practice/types';
 
 export interface CatalogOption {
