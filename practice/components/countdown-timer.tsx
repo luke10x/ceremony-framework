@@ -31,7 +31,13 @@ const CountDownTimer: FC<CountDownTimerProps> = ({ startedAt, durationInMs, onFi
 
     let tick = setInterval(
       () => {
-        setCurrentTime((new Date()).getTime())
+        const now = (new Date()).getTime()
+        setCurrentTime(now)
+        if (endTime !== 0 && now > endTime) {
+          clearTimeout(timeout);
+          clearInterval(tick);
+          onFinish()
+        }
       },
       1000
     )
@@ -45,6 +51,9 @@ const CountDownTimer: FC<CountDownTimerProps> = ({ startedAt, durationInMs, onFi
   let remainingSeconds = Math.floor((endTime - currentTime) / 1000);
   if (remainingSeconds < 0) {
     remainingSeconds = 0
+  }
+  if (startedAt === undefined) {
+    remainingSeconds = durationInMs / 1000
   }
 
   let hours   = Math.floor(remainingSeconds / 3600); // get hours

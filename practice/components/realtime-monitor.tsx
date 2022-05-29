@@ -19,7 +19,7 @@ const RealtimeMonitor: FC<RealtimeMonitorProps> = function ({className}) {
       <Link href="/"><a>BACK</a></Link>
     </div>
     <div className="points_label">Points:</div>
-    <div className="points">0</div>
+    <div className="points">{practice.points}</div>
     <div className="time_remaining_label">Time remaining:</div>
     <div className="time_remaining">
       <CountDownTimer

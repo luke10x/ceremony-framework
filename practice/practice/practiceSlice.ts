@@ -2,8 +2,10 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
+import { json } from 'stream/consumers';
 import type { RootState } from '../app/store';
 import { CatalogOption, select } from '../catalog/catalogSlice';
+import { createAbstractTaskFactory } from './taskManager';
 import { Problem, Solution, Task, TaskType } from './types';
 
 export interface ApplySolutionAction {
@@ -20,15 +22,19 @@ export interface PracticeState {
     practiceTasks: Task<TaskType, Problem<TaskType>, Solution<TaskType>>[]
     durationInMs: number
     startedAt?: number
+    points: number
   }
 };
+
+// const createAbstractTaskFactory = (taskType: TaskType) => {}
 
 const initialState: PracticeState = {
   current: {
     practiceId: '',
     status: 'not-started',
     practiceTasks: [],
-    durationInMs: 10000
+    durationInMs: 10000,
+    points: 0
   }
 };
 
@@ -65,16 +71,26 @@ const practiceSlice = createSlice({
         const task = state.current.practiceTasks.find((t) => t.taskId == action.payload.taskId)
         if (task) {
           task.solution = action.payload.solution
+
+          // myFunction()
+          const f = createAbstractTaskFactory(task.type)
+
+          const isCorrect = f.checkSolution(task)
+          const points = isCorrect
+            ? state.current.points + f.getPoints(task)
+            : Math.max(0, state.current.points - f.getPoints(task))
+          state.current.points = points
         }
       }
     }
   },
   extraReducers: (builder) => {
     builder.addCase(select, (state, action: PayloadAction<CatalogOption>) => {
-      state.current.status = "not-started"
-      state.current.practiceTasks = []
-      state.current.startedAt = undefined
-      state.current.durationInMs = action.payload.config.timeboxSeconds * 1000
+      
+      let current = {...initialState.current}
+      current.durationInMs = action.payload.config.timeboxSeconds * 1000
+
+      state.current = current
     });
   }
 });
