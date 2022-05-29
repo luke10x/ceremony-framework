@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectSelected } from "../catalog/catalogSlice";
 import { AdditionSolution, AdditionTask } from "./addition/addition";
@@ -34,11 +34,18 @@ const Hints: FC<Props> = ({ className }) => {
 
   return (
     <div className={className}> 
-      {unsolvedTask?.hints.map((h, key) => (
-        <button key={key} onClick={() => addOneMore(h, unsolvedTask.taskId)} className="hint">
-          {hintToStr(unsolvedTask.type, h)}
-        </button>
-      ))}
+      {unsolvedTask?.hints.map((h, key) => {
+        const time = (new Date()).getTime().valueOf().toString()
+
+
+        return (
+          <button key={key + time} onClick={() => addOneMore(h, unsolvedTask.taskId)} className="hint">
+            {hintToStr(unsolvedTask.type, h)}
+          </button>
+        )
+      }
+      
+      )}
     </div>
   )
 }
@@ -46,6 +53,12 @@ const Hints: FC<Props> = ({ className }) => {
 interface Props {
   className?: string
 }
+
+const grow = keyframes`
+  0% { opacity: 0%; }
+  50% { opacity: 0%; }
+  100% { opacity: 100%; }
+`
 
 const StyledHints = styled(Hints)`
   border: 0;
@@ -57,6 +70,10 @@ const StyledHints = styled(Hints)`
     margin: 5px;
     border: 1px dotted green;
     cursor: pointer;
+
+    animation-name: ${grow};
+    animation-duration: 0.8s;
+    animation-iteration-count: 1;
   }
 
   /* for landscape view: */
