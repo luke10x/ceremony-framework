@@ -38,14 +38,14 @@ function MyApp({
       `
     : ''
 
-  const hackForAndroid = true || isAndroid
+  const hackForAndroid = false && isAndroid
   ? `
   height: 100%;
       background: green;
     `
   : ''
 
-  const hackForRest = true || (!isIos && !isAndroid)
+  const hackForRest = false && (!isIos && !isAndroid)
     ? `
       height: 100vh;
     `
