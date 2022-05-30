@@ -43,7 +43,7 @@ function MyApp({
     `
   : ''
 
-  const hackForRest = false && (!isIos && !isAndroid)
+  const hackForRest = !isIos && !isAndroid
     ? `
       height: 100vh;
     `
