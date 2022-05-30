@@ -11,8 +11,9 @@ function MyApp({
         margin: 0px;
         padding: 0px;
 
-        min-height: 100vh;
-        /* mobile viewport bug fix */
+        /* for Chrome */
+        height: 100vh;
+        /* iPhone mobile viewport bug fix */
         min-height: -webkit-fill-available;
 
         display: flex;
