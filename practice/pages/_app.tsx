@@ -32,14 +32,12 @@ function MyApp({
   const hackForIos = isIos
     ? `
         min-height: -webkit-fill-available;
-        background: purple;
       `
     : ''
 
   const hackForAndroid =  isAndroid
   ? `
       height: 100vh;
-      background: green;
     `
   : ''
 
@@ -58,13 +56,15 @@ function MyApp({
         margin: 0px;
         padding: 0px;
 
+        min-height: 100vh;
+
         /* min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
         ${hackForIos}
         ${hackForAndroid}
         ${hackForRest}
 
+        background: blue;
 
-        // height: 100vh;
 
 
         display: flex;
