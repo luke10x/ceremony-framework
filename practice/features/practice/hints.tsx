@@ -67,10 +67,6 @@ const StyledHints = styled(Hints)`
 
   button.hint:active,
   button.hint:hover {
-    background: red;
-  }
-  button.hint:focus,
-  button.hint:hover {
     background: gold;
   }
   .hint {
