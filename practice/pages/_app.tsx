@@ -31,9 +31,8 @@ function MyApp({
   
   const hackForIos = isIos
     ? `
-        height: 100vh;
-
-        min-height: -webkit-fill-available;
+        // height: 100vh;
+        // min-height: -webkit-fill-available;
         background: purple;
       `
     : ''
@@ -65,7 +64,7 @@ function MyApp({
         ${hackForAndroid}
         ${hackForRest}
 
-        
+
         height: 100vh;
 
 
@@ -73,12 +72,12 @@ function MyApp({
         flex-direction: column;
       }
 
-      /* for landscape view: */
+      /* for landscape view: 
       @media (min-aspect-ratio: 1/1) {
         body {
           min-height: 100vh;
         }
-      }
+      }*/
 
       #__next {
         height: 100%;

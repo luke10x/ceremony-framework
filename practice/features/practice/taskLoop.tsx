@@ -76,7 +76,7 @@ const StyledTaskLoop = styled(TaskLoop)`
 
   flex: 1 0 auto;
 
-  padding: 80px 20px 20px 20px;
+  padding: 0; //20px 20px 20px 20px;
 
   &.status-started .each:last-child {
     border: 1px solid #ccc;
