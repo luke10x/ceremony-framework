@@ -42,6 +42,12 @@ function MyApp({
       background: green;
     `
   : ''
+
+  const hackForRest = !isIos && !isAndroid
+    ? `
+      height: 100vh;
+    `
+    : ''
   return (<>
     <style jsx global>{`
       body {
@@ -51,7 +57,8 @@ function MyApp({
         /* min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
         ${hackForIos}
         ${hackForAndroid}
-      
+        ${hackForRest}
+
         display: flex;
         flex-direction: column;
       }
