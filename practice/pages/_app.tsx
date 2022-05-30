@@ -27,7 +27,8 @@ function MyApp({
   const hackForIos = isIos
     ? `
       min-height: -webkit-fill-available;
-      background: orange;
+      height: 100vh;
+      background: red;
     ` 
     : `
       height: 100vh;
