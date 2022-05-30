@@ -70,8 +70,6 @@ const StyledHints = styled(Hints)`
     background: red;
   }
   button.hint:focus,
-  button.hint:visited,
-
   button.hint:hover {
     background: gold;
   }
