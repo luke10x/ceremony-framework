@@ -22,22 +22,21 @@ const NotStartedPractice: FC = () => {
 const Footer = styled.footer`
   margin: 0; padding: 0;
 
-  border: 0 solid red;
+  border: 1px solid red;
   flex: 0 1;
 `
 
 const StartedPractice: FC = () => {
-  return (
+  return (<>
     <StickyHeaderFor header={<RealTimeMonitor />}> 
-      
       <TaskLoop />
-
-      <Footer>
-        <Hints />
-      </Footer>
-
     </StickyHeaderFor>
-  )
+
+    {/* Sticky header is not for this Footer */}
+    <Footer>
+      <Hints />
+    </Footer>
+  </>)
 }
 
 const FinishedPractice: FC = () => {
