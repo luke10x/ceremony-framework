@@ -37,15 +37,16 @@ const FinishedPractice: FC = () => {
 const Practice: FC<Props> = function ({className}) {
   const practice = useAppSelector(selectCurrentPractice);
   const status = practice.status
-  return (<div className={className}>
+  return (<>
     {status === 'not-started' && <NotStartedPractice />}
     {status === 'started' && <StartedPractice />}
     {status === 'finished' && <FinishedPractice />}
-  </div>)
+  </>)
 }
 
 interface Props {
   className?: string
 }
+
 
 export default Practice

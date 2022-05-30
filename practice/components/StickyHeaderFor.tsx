@@ -27,5 +27,8 @@ const StyledStickyHeaderFor = styled(StickyHeaderFor)`
     position: sticky;
     top: 0;
   }
+
+  min-height: 100%;
+  border: 3px solid brown;
 `
 export default StyledStickyHeaderFor;
