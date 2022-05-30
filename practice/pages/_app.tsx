@@ -36,7 +36,7 @@ function MyApp({
       `
     : ''
 
-  const hackForAndroid = isIos
+  const hackForAndroid = isAndroid
   ? `
       min-height: 100%;
       background: green;
