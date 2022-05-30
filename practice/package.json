@@ -15,6 +15,7 @@
     "react-dom": "18.1.0",
     "react-redux": "^8.0.2",
     "styled-components": "^5.3.5",
+    "use-typed-event-listener": "^3.0.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

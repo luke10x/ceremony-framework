@@ -11,6 +11,14 @@ function MyApp({
         margin: 0px;
         padding: 0px;
         min-height: 100vh;
+
+        display: flex;
+        flex-direction: column;
+      }
+      body #__next {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
       }
     `}</style>
     <Provider store={store}>

@@ -3,6 +3,7 @@ import { Problem, Solution, Task, TaskType } from "../types";
 import {v4 as uuidv4} from 'uuid';
 import { AbstractTaskFactory } from "../taskManager";
 import styled from "styled-components";
+import useEventListener from 'use-typed-event-listener'
 
 export interface AdditionProblem extends Problem<TaskType.Addition> {
   addends: number[]
@@ -26,6 +27,17 @@ const Addition: FC<Props> = function ({
   onSolve,
   solvedSum
 }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+ 
+  if (typeof window !== "undefined") {
+    useEventListener(window, 'keypress', ({key}) => {
+      if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].includes(key)) {
+        inputRef.current?.focus();
+        console.log("numeri pressed!", key);
+      }
+    })
+  }
+
   const [value, setValue] = useState<string>(initialValue);
 
   const handleSubmit = (event:  React.SyntheticEvent<HTMLFormElement>) => {
@@ -42,11 +54,6 @@ const Addition: FC<Props> = function ({
     const newVal = event.target.value
     setValue(newVal.substr(0,2))
   }
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
   
   if (submitted) {
     return (
