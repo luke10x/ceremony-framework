@@ -15,9 +15,9 @@ const StickyHeaderFor: FC<StickyHeaderForProps> = function ({
     <nav className="sticky">
       {header}
     </nav>
-    <main>
+    <div className="content">
       {children}
-    </main>
+    </div>
   </div>)
 }
 

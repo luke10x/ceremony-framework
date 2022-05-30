@@ -70,6 +70,12 @@ const StyledTaskLoop = styled(TaskLoop)`
   display: flex;
   flex-direction: column;
 
+  align-items: center;
+  justify-content: center;
+  border: 1px solid green;
+
+  flex: 1 0 auto;
+
   padding: 20px 0;
 
   &.status-started .each:last-child {
