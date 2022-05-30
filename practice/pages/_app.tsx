@@ -11,14 +11,14 @@ function MyApp({
         margin: 0px;
         padding: 0px;
 
-        /*
-        // min-height: 100vh;
-        // min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
-        // height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
-        // min-height: stretch;
-        */
+        min-height: 100vh;
+        min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
+        min-height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
 
-        height: 100vh;
+        /* for landscape view: */
+        @media (min-aspect-ratio: 1/1) {
+          min-height: 100vh;
+        }
 
         display: flex;
         flex-direction: column;
