@@ -10,7 +10,10 @@ function MyApp({
       body {
         margin: 0px;
         padding: 0px;
+
         min-height: 100vh;
+        /* mobile viewport bug fix */
+        min-height: -webkit-fill-available;
 
         display: flex;
         flex-direction: column;
