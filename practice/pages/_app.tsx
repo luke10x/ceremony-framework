@@ -11,16 +11,20 @@ function MyApp({
         margin: 0px;
         padding: 0px;
 
-        min-height: 100%;
-        min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
-        min-height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
-        min-height: fill-available;
+        // min-height: 100vh;
+        // min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
+        // height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+        // min-height: stretch;
+
+        height: 100%;
 
         display: flex;
         flex-direction: column;
       }
-      body #__next {
-        flex: 1;
+      #__next {
+        height: 100%;
+
+        flex: 1 0 auto;
         display: flex;
         flex-direction: column;
       }
