@@ -31,6 +31,8 @@ function MyApp({
   
   const hackForIos = isIos
     ? `
+        height: 100vh;
+
         min-height: -webkit-fill-available;
         background: purple;
       `
@@ -38,7 +40,7 @@ function MyApp({
 
   const hackForAndroid = isAndroid
   ? `
-      min-height: 100%;
+  height: 100%;
       background: green;
     `
   : ''
