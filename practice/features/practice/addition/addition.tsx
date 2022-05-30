@@ -51,7 +51,9 @@ const Addition: FC<Props> = function ({
   if (submitted) {
     return (
       <div className={className}>
-        <span>{addends[0]} + {addends[1]} = {solvedSum}</span>
+        <span className={isCorrect ? 'correct' : 'wrong'}>
+          {addends[0]} + {addends[1]} = {solvedSum}
+        </span>
         {isCorrect && <span role="img" aria-label="Correct!">✅</span>}
         {!isCorrect && <span role="img" aria-label="Wrong!">⛔</span>}
       </div>
@@ -85,11 +87,20 @@ const StyledAddition = styled(Addition)`
   width: 9em;
   display: flex;
   justify-content: space-between;
+  span.wrong {
+    text-decoration: line-through;
+  }
 
   fieldset {
     padding: 0;
     border: 0;
   }
+
+  -webkit-touch-callout: none; /* Safari */
+  -webkit-user-select: none; /* Chrome */     
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; 
 `
 export default StyledAddition;
 
