@@ -9,15 +9,10 @@ import Hints from '../features/practice/hints'
 const Main = styled.main`
   margin: 0; padding: 0;
   border: 0 solid red;
-  flex: 1;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
 `
-const Footer = styled.footer`
-  margin: 0; padding: 0;
-
-  border: 0 solid red;
-  flex: 0 1;
-`
-
 const Practice: NextPage = () => {
   return (
     <div className={styles.container}>
@@ -31,10 +26,6 @@ const Practice: NextPage = () => {
       <Main>
         <PracticeComponent />
       </Main>
-
-      <Footer className={styles.footer}>
-        <Hints />
-      </Footer>
     </div>
   )
 }

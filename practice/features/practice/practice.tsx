@@ -5,6 +5,8 @@ import RealTimeMonitor from './realtimeMonitor'
 import { selectCurrentPractice, start } from "./practiceSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectSelected } from "../catalog/catalogSlice";
+import Hints from "./hints";
+import styled from "styled-components";
 
 const NotStartedPractice: FC = () => {
   const dispatch = useAppDispatch();
@@ -17,10 +19,23 @@ const NotStartedPractice: FC = () => {
   )
 }
 
+const Footer = styled.footer`
+  margin: 0; padding: 0;
+
+  border: 0 solid red;
+  flex: 0 1;
+`
+
 const StartedPractice: FC = () => {
   return (
     <StickyHeaderFor header={<RealTimeMonitor />}> 
+      
       <TaskLoop />
+
+      <Footer>
+        <Hints />
+      </Footer>
+
     </StickyHeaderFor>
   )
 }

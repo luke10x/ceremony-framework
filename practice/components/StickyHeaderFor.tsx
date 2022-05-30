@@ -27,6 +27,12 @@ const StyledStickyHeaderFor = styled(StickyHeaderFor)`
     position: sticky;
     top: 0;
   }
+  .content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    height: 100vh;
+  }
 
   min-height: 100%;
   border: 3px solid brown;
