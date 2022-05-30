@@ -1,10 +1,36 @@
 import { Provider } from 'react-redux';
 import type { AppProps } from 'next/app';
 import { store } from '../app/store';
+import { useEffect, useState } from 'react';
 
+const iOS = () => {
+  // return true;
+  return [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+  ].includes(navigator.platform)
+  // iPad on iOS 13 detection
+  || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+}
 function MyApp({
   Component, pageProps,
 }: AppProps) {
+  const [ isIos, setIsIos ] = useState(false)
+  useEffect(() => {
+    setIsIos(iOS())
+  }, [])
+  
+
+  const hackForIos = isIos
+    ? `
+        min-height: -webkit-fill-available;
+        background: purple;
+      `
+    : ''
   return (<>
     <style jsx global>{`
       body {
@@ -13,8 +39,7 @@ function MyApp({
 
         min-height: 100vh;
         min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
-        min-height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
-
+        ${hackForIos}
       
         display: flex;
         flex-direction: column;
@@ -35,6 +60,7 @@ function MyApp({
         flex-direction: column;
       }
     `}</style>
+
     <Provider store={store}>
       <Component {...pageProps} />
     </Provider>
