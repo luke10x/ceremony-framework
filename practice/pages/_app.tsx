@@ -16,7 +16,7 @@ function MyApp({
         // height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
         // min-height: stretch;
 
-        height: 100%;
+        height: 100vh;
 
         display: flex;
         flex-direction: column;
