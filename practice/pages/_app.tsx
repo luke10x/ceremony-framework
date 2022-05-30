@@ -32,18 +32,18 @@ function MyApp({
   const hackForIos = isIos
     ? `
         min-height: -webkit-fill-available;
-        background: blue;
+        background: purple;
       `
     : ''
 
   const hackForAndroid =  isAndroid
   ? `
       height: 100vh;
-      background: grey;
+      background: green;
     `
   : ''
 
-  const hackForRest = !isIos && !isAndroid
+  const hackForRest = false && (!isIos && !isAndroid)
     ? `
       height: 100vh;
     `
