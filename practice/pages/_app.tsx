@@ -20,22 +20,28 @@ function MyApp({
   Component, pageProps,
 }: AppProps) {
   const [ isIos, setIsIos ] = useState(false)
+  const [ isAndroid, setIsAndroid ] = useState(false)
   useEffect(() => {
-
-
-    var ua = navigator.userAgent.toLowerCase();
-    var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+    const ua = navigator.userAgent.toLowerCase();
+    const isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
 
     setIsIos(iOS())
+    setIsAndroid(isAndroid)
   }, [])
   
   const hackForIos = isIos
     ? `
         min-height: -webkit-fill-available;
-        min-height: 100%;
         background: purple;
       `
     : ''
+
+  const hackForAndroid = isIos
+  ? `
+      min-height: 100%;
+      background: green;
+    `
+  : ''
   return (<>
     <style jsx global>{`
       body {
@@ -45,6 +51,7 @@ function MyApp({
         height: 100vh;
         /* min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
         ${hackForIos}
+        ${hackForAndroid}
       
         display: flex;
         flex-direction: column;
