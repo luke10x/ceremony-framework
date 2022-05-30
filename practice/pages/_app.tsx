@@ -21,10 +21,14 @@ function MyApp({
 }: AppProps) {
   const [ isIos, setIsIos ] = useState(false)
   useEffect(() => {
-    setIsIos(iOS())
+
+
+    var ua = navigator.userAgent.toLowerCase();
+    var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+
+    setIsIos(iOS() || isAndroid)
   }, [])
   
-
   const hackForIos = isIos
     ? `
         min-height: -webkit-fill-available;
