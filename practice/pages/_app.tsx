@@ -15,14 +15,18 @@ function MyApp({
         min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
         min-height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
 
-        /* for landscape view: */
-        @media (min-aspect-ratio: 1/1) {
-          min-height: 100vh;
-        }
-
+      
         display: flex;
         flex-direction: column;
       }
+
+      /* for landscape view: */
+      @media (min-aspect-ratio: 1/1) {
+        body {
+          min-height: 100vh;
+        }
+      }
+
       #__next {
         height: 100%;
 
