@@ -32,14 +32,16 @@ function MyApp({
   const hackForIos = isIos
     ? `
         // height: 100vh;
-        // min-height: -webkit-fill-available;
+        min-height: -webkit-fill-available;
         background: purple;
       `
     : ''
 
-  const hackForAndroid = false && isAndroid
+  const hackForAndroid =  isAndroid
   ? `
-  height: 100%;
+      // height: 100%;
+      min-height: -webkit-fill-available;
+
       background: green;
     `
   : ''
