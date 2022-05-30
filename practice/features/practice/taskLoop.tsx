@@ -7,6 +7,7 @@ import { createTask } from "./taskProvicer";
 import { Solution, TaskType } from "./types";
 import TaskSwitch from "./taskSwitch";
 import { selectSelected } from "../catalog/catalogSlice";
+import { deepScroll } from "./utils";
 
 const TaskLoop: FC<Props> = function ({ className }) {
   const dispatch = useAppDispatch();
@@ -17,15 +18,12 @@ const TaskLoop: FC<Props> = function ({ className }) {
     dispatch(applySolution(createApplySolutionAction(solution, taskId)))
     dispatch(addTask(createTask(selected.config.taskConfigs)))
 
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
-    setTimeout(
-      () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }),
-      400
-    )
+    deepScroll()
   }
 
   useEffect(() => {
     dispatch(addTask(createTask(selected.config.taskConfigs)))
+    deepScroll()
   }, []);
 
   return (

@@ -6,6 +6,7 @@ import { AdditionSolution, AdditionTask } from "./addition/addition";
 import { addTask, applySolution, createApplySolutionAction, selectCurrentPractice } from "./practiceSlice";
 import { createTask } from "./taskProvicer";
 import { Solution, TaskType } from "./types";
+import { deepScroll } from "./utils";
 
 const hintToStr = (taskType: TaskType, s: Solution<TaskType>) => {
   switch (taskType) {
@@ -23,11 +24,7 @@ const Hints: FC<Props> = ({ className }) => {
     dispatch(applySolution(createApplySolutionAction(solution, taskId)))
     dispatch(addTask(createTask(selected.config.taskConfigs)))
 
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
-    setTimeout(
-      () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }),
-      400
-    )
+    deepScroll()
   }
   const practice = useAppSelector(selectCurrentPractice)
   const unsolvedTask = practice.practiceTasks.find(x => x.solution === undefined)
