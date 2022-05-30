@@ -46,6 +46,18 @@ function MyApp({
       height: 100vh;
     `
     : ''
+
+
+  let hack = ''
+  if (isIos) {
+    hack = `
+      min-height: -webkit-fill-available;
+    `
+  } else if (!isAndroid) {
+    hack = `
+      min-height: 100vh;
+    `
+  }
   return (<>
     <style jsx global>{`
       html {
@@ -56,16 +68,10 @@ function MyApp({
         margin: 0px;
         padding: 0px;
 
-        min-height: 100vh;
 
         /* min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
-        ${hackForIos}
-        ${hackForAndroid}
-        ${hackForRest}
-
-        background: blue;
-
-
+        ${hack}
+        background: cyan;
 
         display: flex;
         flex-direction: column;
