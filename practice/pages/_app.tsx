@@ -11,10 +11,10 @@ function MyApp({
         margin: 0px;
         padding: 0px;
 
-        /* for Chrome */
-        height: 100vh;
-        /* iPhone mobile viewport bug fix */
-        min-height: -webkit-fill-available;
+        min-height: 100%;
+        min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
+        min-height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+        min-height: fill-available;
 
         display: flex;
         flex-direction: column;
