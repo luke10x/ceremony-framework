@@ -71,7 +71,6 @@ function MyApp({
 
         /* min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
         ${hack}
-        background: cyan;
 
         display: flex;
         flex-direction: column;

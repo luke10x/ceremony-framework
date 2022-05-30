@@ -21,8 +21,6 @@ const NotStartedPractice: FC = () => {
 
 const Footer = styled.footer`
   margin: 0; padding: 0;
-
-  border: 1px solid red;
   flex: 0 1;
 `
 

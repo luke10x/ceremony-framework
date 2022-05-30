@@ -35,10 +35,7 @@ const StyledStickyHeaderFor = styled(StickyHeaderFor)`
   }
 
   flex: 1 0 auto;
-
   display: flex;
   flex-direction: column;
-  // min-height: 100%;
-  border: 3px solid brown;
 `
 export default StyledStickyHeaderFor;
