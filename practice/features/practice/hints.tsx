@@ -65,9 +65,13 @@ const StyledHints = styled(Hints)`
   display: flex;
   flex-wrap: wrap;
 
+  button.hint:active,
+  button.hint:hover {
+    background: red;
+  }
   button.hint:focus,
   button.hint:visited,
-  button.hint:active,
+
   button.hint:hover {
     background: gold;
   }
