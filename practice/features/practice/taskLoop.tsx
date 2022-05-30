@@ -53,8 +53,15 @@ type Props = {
 };
 
 const smallDown = keyframes`
-  0% { font-size: 1.6rem; }
-  100% { font-size: 1rem; }
+  0% {
+    font-size: 1.8rem;
+    border-color: rgba(100, 100, 100, .2);
+    
+  }
+  100% {
+    font-size: 1.2rem;
+    border-color: rgba(100, 100, 100, 0);
+  }
 `
 
 const appear = keyframes`
@@ -72,12 +79,14 @@ const StyledTaskLoop = styled(TaskLoop)`
   display: flex;
   flex-direction: column;
 
+  padding: 20px 0;
+
   &.status-started .each:last-child {
     border: 1px solid #ccc;
   
     padding: 20px;
     margin: 20px;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
 
     background: white;
     border-radius: 10px 10px 10px 10px;
@@ -87,7 +96,7 @@ const StyledTaskLoop = styled(TaskLoop)`
     -webkit-box-shadow: 4px 4px 15px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 4px 4px 15px 0px rgba(0,0,0,0.75);
     input {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
     }
 
     animation-name: ${appear};
@@ -96,6 +105,11 @@ const StyledTaskLoop = styled(TaskLoop)`
   }
 
   &.status-started .each:not(:last-child) {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+    border-color: rgba(100, 100, 100, 0);
+
     animation-name: ${smallDown};
     animation-duration: .8s;
     animation-iteration-count: 1;

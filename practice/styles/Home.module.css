@@ -5,6 +5,9 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+
+  font-family: 'Dekko';
+  font-size: 1.2em;
 }
 
 .code {

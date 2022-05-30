@@ -2,6 +2,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import { Problem, Solution, Task, TaskType } from "../types";
 import {v4 as uuidv4} from 'uuid';
 import { AbstractTaskFactory } from "../taskManager";
+import styled from "styled-components";
 
 export interface AdditionProblem extends Problem<TaskType.Addition> {
   addends: number[]
@@ -17,6 +18,7 @@ export interface AdditionTask extends Task<TaskType.Addition, AdditionProblem, A
 }
 
 const Addition: FC<Props> = function ({
+  className,
   addends,
   submitted,
   initialValue,
@@ -48,8 +50,8 @@ const Addition: FC<Props> = function ({
   
   if (submitted) {
     return (
-      <div>
-        {addends[0]} + {addends[1]} = {solvedSum}
+      <div className={className}>
+        <span>{addends[0]} + {addends[1]} = {solvedSum}</span>
         {isCorrect && <span role="img" aria-label="Correct!">✅</span>}
         {!isCorrect && <span role="img" aria-label="Wrong!">⛔</span>}
       </div>
@@ -57,15 +59,20 @@ const Addition: FC<Props> = function ({
   }
 
   return (
-    <form onSubmit={ handleSubmit }>
-      {addends[0]} + {addends[1]} =
-      <input value={value} type="number" ref={ inputRef } onChange={ handleChange} />
-      <input type="submit" value="Ok" />
+    <form className={className} onSubmit={ handleSubmit }>
+      <fieldset>
+        {addends[0]} + {addends[1]} =
+        <input value={value} type="number" ref={ inputRef } onChange={ handleChange} />
+      </fieldset>
+      <fieldset>
+        <input type="submit" value="Ok" />
+      </fieldset>
     </form>
   );
 };
 
 type Props = {
+  className?: string
   addends: number[]
   submitted: boolean
   initialValue: string
@@ -74,7 +81,17 @@ type Props = {
   solvedSum?: string
 };
 
-export default Addition;
+const StyledAddition = styled(Addition)`
+  width: 9em;
+  display: flex;
+  justify-content: space-between;
+
+  fieldset {
+    padding: 0;
+    border: 0;
+  }
+`
+export default StyledAddition;
 
 export const additionTaskToProps = (
   task: AdditionTask,

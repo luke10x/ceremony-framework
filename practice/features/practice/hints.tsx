@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectSelected } from "../catalog/catalogSlice";
@@ -37,9 +37,12 @@ const Hints: FC<Props> = ({ className }) => {
       {unsolvedTask?.hints.map((h, key) => {
         const time = (new Date()).getTime().valueOf().toString()
 
-
         return (
-          <button key={key + time} onClick={() => addOneMore(h, unsolvedTask.taskId)} className="hint">
+          <button
+            key={key + time}
+            onClick={() => addOneMore(h, unsolvedTask.taskId)}
+            className={`hint`}
+          >
             {hintToStr(unsolvedTask.type, h)}
           </button>
         )
@@ -64,12 +67,21 @@ const StyledHints = styled(Hints)`
   border: 0;
   display: flex;
   flex-wrap: wrap;
+
+  button.hint:focus,
+  button.hint:visited,
+  button.hint:active,
+  button.hint:hover {
+    background: gold;
+  }
   .hint {
+    border-radius: 3px;
     flex: 1 0 40%; /* It must be less than 50%, actually much less because of padding */
     padding: 15px;
     margin: 5px;
-    border: 1px dotted green;
+    border: 1px dotted gray;
     cursor: pointer;
+    background: #f9a;
 
     animation-name: ${grow};
     animation-duration: 0.8s;
@@ -81,8 +93,13 @@ const StyledHints = styled(Hints)`
     .hint {
       flex: 1 0 100px;
     }
-    background: #f9a;
   }
+
+  -webkit-touch-callout: none; /* Safari */
+  -webkit-user-select: none; /* Chrome */     
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; 
 `
 
 export default StyledHints

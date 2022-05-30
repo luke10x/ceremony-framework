@@ -8,16 +8,16 @@ import Link from "next/link";
 
 const options: CatalogOption[] = [
   {
-    title: "Practice addition for 10 seconds",
+    title: "Practice addition for 20 seconds",
     config: {
-      timeboxSeconds: 10,
+      timeboxSeconds: 20,
       taskConfigs: [{ type: TaskType.Addition }],
     }
   },
   {
-    title: "Practice multiplication for 10 seconds",
+    title: "Practice multiplication for 20 seconds",
     config: {
-      timeboxSeconds: 10,
+      timeboxSeconds: 20,
       taskConfigs: [{ type: TaskType.Multiplication }],
     }
   },

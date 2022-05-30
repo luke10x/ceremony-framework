@@ -62,8 +62,8 @@ const CountDownTimer: FC<CountDownTimerProps> = ({ startedAt, durationInMs, onFi
 
   return (<>
     <span>
-      {hours < 10 ?  `0${hours}` : hours}
-      :
+      {/* {hours < 10 ?  `0${hours}` : hours}
+      : */}
       {minutes < 10 ?  `0${minutes}` : minutes}
       :
       {seconds < 10 ?  `0${seconds}` : seconds}
