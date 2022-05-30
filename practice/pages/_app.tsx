@@ -26,7 +26,7 @@ function MyApp({
     var ua = navigator.userAgent.toLowerCase();
     var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
 
-    setIsIos(iOS() || isAndroid)
+    setIsIos(iOS())
   }, [])
   
   const hackForIos = isIos
@@ -42,8 +42,8 @@ function MyApp({
         margin: 0px;
         padding: 0px;
 
-        min-height: 100vh;
-        min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
+        height: 100vh;
+        /* min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
         ${hackForIos}
       
         display: flex;
