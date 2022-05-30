@@ -13,8 +13,6 @@ const TaskLoop: FC<Props> = function ({ className }) {
   const practice = useAppSelector(selectCurrentPractice);
   const selected = useAppSelector(selectSelected);
 
-  const isInitialRender = useRef(true);// in react, when refs are changed component dont re-render 
-
   const addOneMore = (solution: Solution<TaskType>, taskId: string) => {
     dispatch(applySolution(createApplySolutionAction(solution, taskId)))
     dispatch(addTask(createTask(selected.config.taskConfigs)))
@@ -27,11 +25,6 @@ const TaskLoop: FC<Props> = function ({ className }) {
   }
 
   useEffect(() => {
-    if(isInitialRender.current){// skip initial execution of useEffect
-      isInitialRender.current = false;// set it to false so subsequent changes of dependency arr will make useEffect to execute
-      return;
-    }
-
     dispatch(addTask(createTask(selected.config.taskConfigs)))
   }, []);
 
