@@ -48,7 +48,6 @@ function MyApp({
         margin: 0px;
         padding: 0px;
 
-        height: 100vh;
         /* min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
         ${hackForIos}
         ${hackForAndroid}
