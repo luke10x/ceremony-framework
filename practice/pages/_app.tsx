@@ -28,25 +28,6 @@ function MyApp({
     setIsIos(iOS())
     setIsAndroid(isAndroid)
   }, [])
-  
-  const hackForIos = isIos
-    ? `
-        min-height: -webkit-fill-available;
-      `
-    : ''
-
-  const hackForAndroid =  isAndroid
-  ? `
-      height: 100vh;
-    `
-  : ''
-
-  const hackForRest = false && (!isIos && !isAndroid)
-    ? `
-      height: 100vh;
-    `
-    : ''
-
 
   let hack = ''
   if (isIos) {
@@ -58,30 +39,22 @@ function MyApp({
       min-height: 100vh;
     `
   }
+
   return (<>
     <style jsx global>{`
       html {
         min-height: 100%;
-
       }
+
       body {
         margin: 0px;
         padding: 0px;
 
-
-        /* min-height: -moz-available;          /* WebKit-based browsers will ignore this. */
         ${hack}
 
         display: flex;
         flex-direction: column;
       }
-
-      /* for landscape view: 
-      @media (min-aspect-ratio: 1/1) {
-        body {
-          min-height: 100vh;
-        }
-      }*/
 
       #__next {
         height: 100%;

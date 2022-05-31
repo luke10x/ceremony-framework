@@ -8,11 +8,11 @@ import { selectSelected } from "../catalog/catalogSlice";
 import Hints from "./hints";
 import styled from "styled-components";
 
-const NotStartedPractice: FC = () => {
+const NotStartedPractice: FC<Props> = ({className}) => {
   const dispatch = useAppDispatch();
   const selected = useAppSelector(selectSelected)
   return (
-    <StickyHeaderFor header={<RealTimeMonitor />}> 
+    <StickyHeaderFor header={<RealTimeMonitor />} className={className}> 
       <div>Practice "{selected.title}" is about to start...</div>
       <button onClick={() => dispatch(start((new Date()).getTime()))}>Start</button>
     </StickyHeaderFor>
@@ -24,9 +24,9 @@ const Footer = styled.footer`
   flex: 0 1;
 `
 
-const StartedPractice: FC = () => {
+const StartedPractice: FC<Props> = ({className}) => {
   return (<>
-    <StickyHeaderFor header={<RealTimeMonitor />}> 
+    <StickyHeaderFor header={<RealTimeMonitor />} className={className}> 
       <TaskLoop />
     </StickyHeaderFor>
 
@@ -37,9 +37,9 @@ const StartedPractice: FC = () => {
   </>)
 }
 
-const FinishedPractice: FC = () => {
+const FinishedPractice: FC<Props> = ({className}) => {
   return (
-    <StickyHeaderFor header={<RealTimeMonitor />}> 
+    <StickyHeaderFor header={<RealTimeMonitor />} className={className}> 
       <TaskLoop />
       this is finished
     </StickyHeaderFor>
@@ -50,9 +50,9 @@ const Practice: FC<Props> = function ({className}) {
   const practice = useAppSelector(selectCurrentPractice);
   const status = practice.status
   return (<>
-    {status === 'not-started' && <NotStartedPractice />}
-    {status === 'started' && <StartedPractice />}
-    {status === 'finished' && <FinishedPractice />}
+    {status === 'not-started' && <NotStartedPractice className={className} />}
+    {status === 'started' && <StartedPractice className={className} />}
+    {status === 'finished' && <FinishedPractice className={className} />}
   </>)
 }
 

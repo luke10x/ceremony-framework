@@ -1,18 +1,16 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import Link from 'next/link'
-import PracticeComponent from '../features/practice/practice'
+import PracticeProxy from '../features/practice/practiceProxy'
 import styled from 'styled-components'
-import Hints from '../features/practice/hints'
 
-const Main = styled.main`
+const RestyledPracticeProxy = styled(PracticeProxy)`
   margin: 0; padding: 0;
-  border: 8px solid red;
   flex: 1 0 auto;
-  display: flex;
-  flex-direction: column;
+
+  font-family: 'Dekko';
+  font-size: 1.2em;
 `
+
 const Practice: NextPage = () => {
   return (
     <>
@@ -23,7 +21,7 @@ const Practice: NextPage = () => {
         <link href='https://fonts.googleapis.com/css?family=Dekko' rel='stylesheet' />
       </Head>
 
-      <PracticeComponent />
+      <RestyledPracticeProxy />
     </>
   )
 }
