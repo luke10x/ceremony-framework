@@ -60,9 +60,28 @@ interface Props {
 }
 
 const StyledCatalog = styled(Catalog)`
+  button {
+    font-family: 'Dekko';
+    font-size: 1.2em;
+  }
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+
+  @media (min-aspect-ratio: 1/1) {
+    flex-direction: row;
+  }
   .option {
-    border: 1px solid blue;
-    margin: 10px;
+    flex: 1 0;
+    border: 0;
+    display: flex;
+
+    button {
+      flex: 1 0 100%;
+      width: 100%;
+    }
   }
 `
 

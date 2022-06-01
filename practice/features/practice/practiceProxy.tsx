@@ -8,13 +8,35 @@ import { selectSelected } from "../catalog/catalogSlice";
 import Hints from "./hints";
 import styled from "styled-components";
 
+const NotStartedContent = styled.div`
+  margin: 10px;
+  text-align: center;
+
+  p {
+    text-align: center;
+  }
+  button {
+    padding: 20px;
+    font-family: 'Dekko';
+    font-size: 1.2em;
+  }
+`
+
 const NotStartedPractice: FC<Props> = ({className}) => {
   const dispatch = useAppDispatch();
   const selected = useAppSelector(selectSelected)
   return (
     <StickyHeaderFor header={<RealTimeMonitor />} className={className}> 
-      <div>Practice "{selected.title}" is about to start...</div>
-      <button onClick={() => dispatch(start((new Date()).getTime()))}>Start</button>
+      <NotStartedContent>
+        <p>
+          Are you ready to start with
+        </p>
+        <p>"{selected.title}"</p>
+        <p>?</p>
+        <button
+          onClick={() => dispatch(start((new Date()).getTime()))}
+        >Start now!</button>      
+      </NotStartedContent>
     </StickyHeaderFor>
   )
 }
