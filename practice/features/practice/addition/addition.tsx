@@ -27,18 +27,26 @@ const Addition: FC<Props> = function ({
   onSolve,
   solvedSum
 }) {
+
+  const [value, setValue] = useState<string>(initialValue);
+
   const inputRef = useRef<HTMLInputElement>(null);
  
   if (typeof window !== "undefined") {
-    useEventListener(window, 'keypress', ({key}) => {
-      if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].includes(key)) {
-        inputRef.current?.focus();
-        console.log("numeri pressed!", key);
+    useEventListener(window, 'keypress', (e) => {
+      if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].includes(e.key)) {
+        e.preventDefault()
+
+        if (inputRef.current === null) {
+          return;
+        }
+        inputRef.current.focus();
+        setValue(value + e.key);
+
+        console.log("numeri pressed!", e.key)
       }
     })
   }
-
-  const [value, setValue] = useState<string>(initialValue);
 
   const handleSubmit = (event:  React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -51,8 +59,10 @@ const Addition: FC<Props> = function ({
     });
   }
   const handleChange = (event: any) => {
+    event.preventDefault()
     const newVal = event.target.value
     setValue(newVal.substr(0,2))
+    console.log('change triggered')
   }
   
   if (submitted) {
