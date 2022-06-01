@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectSelected } from "../catalog/catalogSlice";
-import { AdditionSolution, AdditionTask } from "./addition/addition";
+import { AdditionSolution } from "./addition/addition";
 import { addTask, applySolution, createApplySolutionAction, selectCurrentPractice } from "./practiceSlice";
 import { createTask } from "./taskProvicer";
 import { Solution, TaskType } from "./types";
