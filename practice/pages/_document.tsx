@@ -16,17 +16,12 @@ export default function Document() {
               margin: 0px;
               padding: 0px;
 
-              background: tomato;
-
               flex: 1 0 auto;
               display: flex;
               flex-direction: column;
             }
 
             #__next {
-              background: cyan;
-
-              
               // this is mostly for android;
               // without it android also look weird;
               // but in a different way.
