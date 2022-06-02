@@ -60,7 +60,6 @@ function MyApp({
       }
 
       #__next {
-        height: 100%;
         background: green;
 
         flex: 1 0 auto;
