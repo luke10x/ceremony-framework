@@ -3,27 +3,26 @@ import styled from 'styled-components';
 import { keyframes } from 'styled-components'
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { addTask, selectCurrentPractice, applySolution, createApplySolutionAction } from "./practiceSlice";
-import { createTask } from "./taskProvicer";
 import { Solution, TaskType } from "./types";
 import TaskSwitch from "./taskSwitch";
 import { selectSelected } from "../catalog/catalogSlice";
 import { deepScroll } from "./utils";
-import { createAbstractTaskFactory, createTaskFactoryByOneOfConfigs } from "./taskManager";
+import { createTaskFactoryByOneOfConfigs } from "./taskManager";
 
 const TaskLoop: FC<Props> = function ({ className }) {
   const dispatch = useAppDispatch();
   const practice = useAppSelector(selectCurrentPractice);
   const selected = useAppSelector(selectSelected);
+  const f = createTaskFactoryByOneOfConfigs(selected.config.taskConfigs)
 
   const addOneMore = (solution: Solution<TaskType>, taskId: string) => {
     dispatch(applySolution(createApplySolutionAction(solution, taskId)))
-    dispatch(addTask(createTask(selected.config.taskConfigs)))
+    dispatch(addTask(f.createTask()))
 
     deepScroll()
   }
 
   useEffect(() => {
-    const f = createTaskFactoryByOneOfConfigs(selected.config.taskConfigs)
     dispatch(addTask(f.createTask()))
     deepScroll()
   }, []);
