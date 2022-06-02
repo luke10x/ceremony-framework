@@ -5,7 +5,7 @@ export default function Document() {
     <Html>
       <Head>
         <link 
-          href='https://fonts.googleapis.com/css?family=Dekko'
+          href='https://fonts.googleapis.com/css?family=Dekko&display=optional'
           rel='stylesheet' />
       </Head>
       <body>
