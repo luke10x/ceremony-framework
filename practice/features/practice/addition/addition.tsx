@@ -162,25 +162,36 @@ export const createAddAdditionTaskAction = (): Task<TaskType.Addition, AdditionP
   function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
   }
-  
 
   const a = getRandomInt(max + 1)
   const b = getRandomInt(max + 1)
 
   const correct = [a, b].reduce((a, b) => a + b)
   const hints = [
-     0,  1,  2,  3,  4,  5,  6,  7,  8,  9,
-    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-    20
+    1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+    11, 12, 13, 14, 15, 16, 17, 18, 19, 20
   ]
+    // Take out the correct value
     .filter(x => x !== correct)
-    .slice(0, 3)
-    .concat([correct])
+
+    // Shuffle all
     .map(value => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value)
-    .map(n => ({ sum: n }))
 
+    // select 3 incorrect products
+    .slice(0, 3)
+
+    // also select the correct as the 4th value
+    .concat([correct])
+
+    // Shuffle 4 selected values again
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
+
+    // create solutions from selected values
+    .map(n => ({ sum: n }))
 
   return {
     problem: {

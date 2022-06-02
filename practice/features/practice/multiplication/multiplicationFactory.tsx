@@ -1,6 +1,7 @@
 import { AbstractTaskFactory } from "../taskManager"
 import { Solution, TaskType } from "../types"
 import { createMultiplicationTask } from "./createMultiplicationTask"
+import Multiplication, { multiplicationTaskToProps } from "./multiplication"
 import { MultiplicationSolution, MultiplicationTask } from "./multiplicationTypes"
 
 export const multiplicationFactory: AbstractTaskFactory = {
@@ -20,8 +21,12 @@ export const multiplicationFactory: AbstractTaskFactory = {
   solutionAsStr: (
     s: Solution<TaskType>
   ) => (s as MultiplicationSolution).product.toString(),
-  taskComponent: ({ task, onSolve }) => (
-    <div className="each" key={task.taskId}>
-        what is the task type?
-      </div>)
+  taskComponent: ({ task, onSolve, className }) => (
+    <Multiplication className={className}
+      {...multiplicationTaskToProps(
+        task as MultiplicationTask,
+        onSolve as (solution: MultiplicationSolution) => void
+      )}
+      solvedSum={(task as MultiplicationTask).solution?.product.toString()} />
+  )
 }
