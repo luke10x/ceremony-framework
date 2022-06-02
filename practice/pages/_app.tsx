@@ -44,17 +44,17 @@ function MyApp({
     <style jsx global>{`
       html {
         min-height: 100%;
-        background: blue;
-
+        display: flex;
+        flex-direction: column;
       }
 
       body {
         margin: 0px;
         padding: 0px;
 
-        ${hack}
-
         background: red;
+
+        flex: 1 0 auto;
         display: flex;
         flex-direction: column;
       }
