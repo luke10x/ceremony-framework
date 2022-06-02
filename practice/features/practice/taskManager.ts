@@ -3,6 +3,7 @@ import multiplicationFactory from "./multiplication";
 import { Problem, Solution, Task, TaskConfig, TaskType, TypedTask } from "./types";
 
 export interface AbstractTaskFactory {
+  solutionAsStr: (solution: Solution<TaskType>) => string
   createTask: () => TypedTask<TaskType> 
   checkSolution(task: Task<TaskType, Problem<TaskType>, Solution<TaskType>>): boolean
   getPoints(task: Task<TaskType, Problem<TaskType>, Solution<TaskType>>): number

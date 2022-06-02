@@ -8,15 +8,6 @@ import { createTaskFactoryByOneOfConfigs } from "./taskManager";
 import { Solution, TaskType } from "./types";
 import { deepScroll } from "./utils";
 
-const hintToStr = (taskType: TaskType, s: Solution<TaskType>) => {
-  switch (taskType) {
-    case TaskType.Addition:
-      return (s as AdditionSolution).sum
-    default:
-      throw new Error("not available hint for task type: " + taskType)
-  }
-}
-
 const Hints: FC<Props> = ({ className }) => {
   const dispatch = useAppDispatch();
   const selected = useAppSelector(selectSelected);
@@ -42,7 +33,7 @@ const Hints: FC<Props> = ({ className }) => {
             onClick={() => addOneMore(h, unsolvedTask.taskId)}
             className={`hint`}
           >
-            {hintToStr(unsolvedTask.type, h)}
+            {f.solutionAsStr(h)}
           </button>
         )
       }

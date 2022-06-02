@@ -177,5 +177,6 @@ export const abstractAdditionTaskFactory: AbstractTaskFactory = {
   },
 
   getPoints: (task: AdditionTask): number => task.problem.addends.reduce((a, b) => a + b),
-  createTask: createAddAdditionTaskAction
+  createTask: createAddAdditionTaskAction,
+  solutionAsStr: (s: Solution<TaskType>) => (s as AdditionSolution).sum.toString()
 } 
