@@ -44,6 +44,8 @@ function MyApp({
     <style jsx global>{`
       html {
         min-height: 100%;
+        background: blue;
+
       }
 
       body {
@@ -52,12 +54,14 @@ function MyApp({
 
         ${hack}
 
+        background: red;
         display: flex;
         flex-direction: column;
       }
 
       #__next {
         height: 100%;
+        background: green;
 
         flex: 1 0 auto;
         display: flex;

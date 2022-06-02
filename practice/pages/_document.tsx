@@ -8,7 +8,7 @@ export default function Document() {
           href='https://fonts.googleapis.com/css?family=Dekko&display=optional'
           rel='stylesheet' />
       </Head>
-      <body>
+      <body className="document-body">
         <Main />
         <NextScript />
       </body>
