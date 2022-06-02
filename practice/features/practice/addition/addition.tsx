@@ -42,8 +42,6 @@ const Addition: FC<Props> = function ({
         }
         inputRef.current.focus();
         setValue(value + e.key);
-
-        console.log("numeri pressed!", e.key)
       }
     })
   }
@@ -62,7 +60,6 @@ const Addition: FC<Props> = function ({
     event.preventDefault()
     const newVal = event.target.value
     setValue(newVal.substr(0,2))
-    console.log('change triggered')
   }
   
   if (submitted) {
