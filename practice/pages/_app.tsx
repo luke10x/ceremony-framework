@@ -41,33 +41,38 @@ function MyApp({
   }
 
   return (<>
-    <style jsx global>{`
-      html {
-        min-height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
+  {/* //   <style jsx global>{`
+  //     html {
+  //       min-height: 100%;
+  //       display: flex;
+  //       flex-direction: column;
+  //     }
 
-      body {
-        margin: 0px;
-        padding: 0px;
+  //     body {
+  //       margin: 0px;
+  //       padding: 0px;
 
-        background: red;
+  //       background: red;
 
-        flex: 1 0 auto;
-        display: flex;
-        flex-direction: column;
-      }
+  //       flex: 1 0 auto;
+  //       display: flex;
+  //       flex-direction: column;
+  //     }
 
-      #__next {
-        background: green;
+  //     #__next {
+  //       background: green;
 
-        min-height: 100vh;
-        flex: 1 0 auto;
-        display: flex;
-        flex-direction: column;
-      }
-    `}</style>
+        
+  //       // this is mostly for android;
+  //       // without it android also look weird;
+  //       // but in a different way.
+  //       min-height: 100vh;
+
+  //       flex: 1 0 auto;
+  //       display: flex;
+  //       flex-direction: column;
+  //     }
+  //   `}</style> */}
 
     <Provider store={store}>
       <Component {...pageProps} />
