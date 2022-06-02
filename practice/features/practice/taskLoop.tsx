@@ -4,7 +4,6 @@ import { keyframes } from 'styled-components'
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { addTask, selectCurrentPractice, applySolution, createApplySolutionAction } from "./practiceSlice";
 import { Solution, TaskType } from "./types";
-import TaskSwitch from "./taskSwitch";
 import { selectSelected } from "../catalog/catalogSlice";
 import { deepScroll } from "./utils";
 import { createTaskFactoryByOneOfConfigs } from "./taskManager";
@@ -27,13 +26,16 @@ const TaskLoop: FC<Props> = function ({ className }) {
     deepScroll()
   }, []);
 
+  const TaskComponent = f.taskComponent
   return (
     <div className={`${className} status-${practice.status}`}>
       {practice.practiceTasks
         .filter(t => practice.status === 'started' || t.solution !== undefined)
         .map((task, key) => {
           const onSolve = (solution: Solution<TaskType>) => addOneMore(solution, task.taskId)
-          return <TaskSwitch key={key} task={task} onSolve={onSolve} />
+          return (<div className="each" key={task.taskId}>
+            <TaskComponent task={task} onSolve={onSolve} />
+          </div>)
         })
       }
     </div>
@@ -82,8 +84,7 @@ const StyledTaskLoop = styled(TaskLoop)`
   
     padding: 20px;
     margin: 20px;
-    font-size: 1.8rem;
-
+    
     background: white;
     border-radius: 10px 10px 10px 10px;
     -webkit-border-radius: 10px 10px 10px 10px;
@@ -91,9 +92,7 @@ const StyledTaskLoop = styled(TaskLoop)`
     box-shadow: 4px 4px 15px 0px rgba(0,0,0,0.75);
     -webkit-box-shadow: 4px 4px 15px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 4px 4px 15px 0px rgba(0,0,0,0.75);
-    input {
-      font-size: 1.8rem;
-    }
+
 
     animation-name: ${appear};
     animation-duration: .8s;
@@ -114,10 +113,6 @@ const StyledTaskLoop = styled(TaskLoop)`
   .each {
     align-self: center;
     display: flex;
-    
-    input { 
-      width: 60px;
-    }
   }
 `
 

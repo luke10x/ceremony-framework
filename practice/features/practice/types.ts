@@ -36,6 +36,12 @@ export interface TaskConfig<T extends TaskType> {
   type: T
 }
 
+export type TaskComponentProps<T extends TaskType> = {
+  className?: string
+  task: TypedTask<T>
+  onSolve: (solution: Solution<T>) => void
+};
+
 export interface PracticeConfig {
   timeboxSeconds: number
   taskConfigs: TaskConfig<TaskType>[]

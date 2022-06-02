@@ -1,8 +1,9 @@
 import { abstractAdditionTaskFactory } from "./addition/addition";
 import multiplicationFactory from "./multiplication";
-import { Problem, Solution, Task, TaskConfig, TaskType, TypedTask } from "./types";
+import { Problem, Solution, Task, TaskComponentProps, TaskConfig, TaskType, TypedTask } from "./types";
 
 export interface AbstractTaskFactory {
+  taskComponent: (props: TaskComponentProps<TaskType>) => React.ReactElement
   solutionAsStr: (solution: Solution<TaskType>) => string
   createTask: () => TypedTask<TaskType> 
   checkSolution(task: Task<TaskType, Problem<TaskType>, Solution<TaskType>>): boolean

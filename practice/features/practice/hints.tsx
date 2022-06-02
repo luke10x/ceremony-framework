@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import styled, { keyframes } from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectSelected } from "../catalog/catalogSlice";
-import { AdditionSolution } from "./addition/addition";
 import { addTask, applySolution, createApplySolutionAction, selectCurrentPractice } from "./practiceSlice";
 import { createTaskFactoryByOneOfConfigs } from "./taskManager";
 import { Solution, TaskType } from "./types";

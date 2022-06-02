@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useRef, useState } from "react";
-import { Problem, Solution, Task, TaskType, TypedTask } from "../types";
+import React, { FC, ReactNode, useEffect, useRef, useState } from "react";
+import { Problem, Solution, Task, TaskComponentProps, TaskType, TypedTask } from "../types";
 import {v4 as uuidv4} from 'uuid';
 import { AbstractTaskFactory } from "../taskManager";
 import styled from "styled-components";
@@ -64,7 +64,7 @@ const Addition: FC<Props> = function ({
   
   if (submitted) {
     return (
-      <div className={className}>
+      <div className={`submitted ${className}`}>
         <span className={isCorrect ? 'correct' : 'wrong'}>
           {addends[0]} + {addends[1]} = {solvedSum}
         </span>
@@ -75,7 +75,7 @@ const Addition: FC<Props> = function ({
   }
 
   return (
-    <form className={className} onSubmit={ handleSubmit }>
+    <form className={`not-submitted ${className}`} onSubmit={ handleSubmit }>
       <fieldset>
         {addends[0]} + {addends[1]} =
         <input value={value} type="number" ref={ inputRef } onChange={ handleChange} />
@@ -98,9 +98,16 @@ type Props = {
 };
 
 const StyledAddition = styled(Addition)`
-  width: 9em;
   display: flex;
-  justify-content: space-between;
+
+  &.submitted {
+    width: 6em;
+    justify-content: space-between;
+  }
+  &.not-submitted {
+    width: 12em;
+    justify-content: space-evenly;
+  }
   span.wrong {
     text-decoration: line-through;
   }
@@ -108,6 +115,24 @@ const StyledAddition = styled(Addition)`
   fieldset {
     padding: 0;
     border: 0;
+
+    display: flex;
+    font-size: 1.8rem;
+    input {
+      font-size: 1.8rem;
+    }
+    
+    input { 
+      &[type="number"] {
+        width: 60px;
+      }
+      &[type="submit"] {
+        font-family: 'Dekko';
+        font-size: 0.8rem;
+        height: 100%;
+        width: 3rem;
+      }
+    }
   }
 
   -webkit-touch-callout: none; /* Safari */
@@ -178,5 +203,13 @@ export const abstractAdditionTaskFactory: AbstractTaskFactory = {
 
   getPoints: (task: AdditionTask): number => task.problem.addends.reduce((a, b) => a + b),
   createTask: createAddAdditionTaskAction,
-  solutionAsStr: (s: Solution<TaskType>) => (s as AdditionSolution).sum.toString()
+  solutionAsStr: (s: Solution<TaskType>) => (s as AdditionSolution).sum.toString(),
+  taskComponent: ({ task, onSolve, className }) => (
+      <StyledAddition className={className}
+        {...additionTaskToProps(
+          task as AdditionTask,
+          onSolve as (solution: AdditionSolution) => void
+        )}
+        solvedSum={(task as AdditionTask).solution?.sum.toString()} />
+    )
 } 
