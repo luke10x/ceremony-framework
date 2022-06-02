@@ -1,4 +1,5 @@
 import { createAddAdditionTaskAction } from "./addition/addition";
+import { createMultiplicationTask } from "./multiplication/createMultiplicationTask";
 import { TaskConfig, TaskType } from "./types";
 
 export const createTask = (taskConfig: TaskConfig<TaskType>[]) => {
@@ -11,7 +12,10 @@ export const createTask = (taskConfig: TaskConfig<TaskType>[]) => {
 
   switch (taskType?.type) {
     case TaskType.Addition:
-      return createAddAdditionTaskAction() 
+      return createAddAdditionTaskAction()
+    case TaskType.Multiplication:
+      return createMultiplicationTask()
+
     default:
       throw new Error("not available task type: " + taskType?.type)
   }

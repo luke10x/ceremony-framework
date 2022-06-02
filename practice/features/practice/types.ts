@@ -30,6 +30,8 @@ export interface Task<
   hints: S[],
 }
 
+export type TypedTask<T extends TaskType> = Task<T, Problem<T>, Solution<T>>
+
 export interface TaskConfig<T extends TaskType> {
   type: T
 }

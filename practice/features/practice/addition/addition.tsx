@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import { Problem, Solution, Task, TaskType } from "../types";
+import { Problem, Solution, Task, TaskType, TypedTask } from "../types";
 import {v4 as uuidv4} from 'uuid';
 import { AbstractTaskFactory } from "../taskManager";
 import styled from "styled-components";
@@ -170,11 +170,12 @@ export const createAddAdditionTaskAction = (): Task<TaskType.Addition, AdditionP
 export const abstractAdditionTaskFactory: AbstractTaskFactory = {
   checkSolution: function (task: AdditionTask): boolean {
     if (task.solution === undefined) {
-      throw new Error("solution cannot be checked as not provided yet")
+      throw new Error("solution cannot be checked as not provided yet");
     }
-    const correctSum = task.problem.addends.reduce((a, b) => a + b)
-    return task.solution.sum === correctSum
+    const correctSum = task.problem.addends.reduce((a, b) => a + b);
+    return task.solution.sum === correctSum;
   },
 
-  getPoints: (task: AdditionTask): number => task.problem.addends.reduce((a, b) => a + b)
+  getPoints: (task: AdditionTask): number => task.problem.addends.reduce((a, b) => a + b),
+  createTask: createAddAdditionTaskAction
 } 

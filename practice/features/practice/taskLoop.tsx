@@ -8,6 +8,7 @@ import { Solution, TaskType } from "./types";
 import TaskSwitch from "./taskSwitch";
 import { selectSelected } from "../catalog/catalogSlice";
 import { deepScroll } from "./utils";
+import { createAbstractTaskFactory, createTaskFactoryByOneOfConfigs } from "./taskManager";
 
 const TaskLoop: FC<Props> = function ({ className }) {
   const dispatch = useAppDispatch();
@@ -22,7 +23,8 @@ const TaskLoop: FC<Props> = function ({ className }) {
   }
 
   useEffect(() => {
-    dispatch(addTask(createTask(selected.config.taskConfigs)))
+    const f = createTaskFactoryByOneOfConfigs(selected.config.taskConfigs)
+    dispatch(addTask(f.createTask()))
     deepScroll()
   }, []);
 
