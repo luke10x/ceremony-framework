@@ -8,24 +8,31 @@ import Link from "next/link";
 
 const options: CatalogOption[] = [
   {
-    title: "Practice addition for 20 seconds",
+    title: "Practice addition for 30 seconds",
     config: {
-      timeboxSeconds: 20,
+      timeboxSeconds: 30,
       taskConfigs: [{ type: TaskType.Addition }],
     }
   },
   {
-    title: "Practice multiplication for 20 seconds",
+    title: "Practice multiplication for 30 seconds",
     config: {
-      timeboxSeconds: 20,
+      timeboxSeconds: 30,
       taskConfigs: [{ type: TaskType.Multiplication }],
     }
   },
   {
-    title: "Practice addition for 100 seconds",
+    title: "Practice addition for 3 minutes",
     config: {
-      timeboxSeconds: 100,
+      timeboxSeconds: 180,
       taskConfigs: [{ type: TaskType.Addition }],
+    }
+  },
+  {
+    title: "Practice multiplication for 3 minutes",
+    config: {
+      timeboxSeconds: 180,
+      taskConfigs: [{ type: TaskType.Multiplication }],
     }
   },
 ] 

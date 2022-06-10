@@ -17,8 +17,6 @@ export const createMultiplicationTask = (): TypedTask<TaskType.Multiplication> =
     multiplier => factors.map(multiplicand => multiplier * multiplicand)
   ).filter((v, i, a) => a.indexOf(v) === i);
 
-  // console.log({factors, products})
-
   const hints = products
     // Take out the correct value
     .filter(x => x !== correct)

@@ -2,7 +2,6 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { json } from 'stream/consumers';
 import type { RootState } from '../../app/store';
 import { CatalogOption, select } from '../catalog/catalogSlice';
 import { createAbstractTaskFactory } from './taskManager';
