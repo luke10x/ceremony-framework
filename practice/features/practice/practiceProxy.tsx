@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectSelected } from "../catalog/catalogSlice";
 import Hints from "./hints";
 import styled from "styled-components";
+import FinishedPracticeDetails from "./finishedPracticeDetails";
 
 const NotStartedContent = styled.div`
   margin: 10px;
@@ -60,10 +61,12 @@ const StartedPractice: FC<Props> = ({className}) => {
 }
 
 const FinishedPractice: FC<Props> = ({className}) => {
+  const practice = useAppSelector(selectCurrentPractice);
+
   return (
     <StickyHeaderFor header={<RealTimeMonitor />} className={className}> 
       <TaskLoop />
-      this is finished
+      <FinishedPracticeDetails />
     </StickyHeaderFor>
   )
 }
