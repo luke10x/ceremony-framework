@@ -25,7 +25,7 @@ const EnterprizeCounter: FC<EnterprizeCounterProps> = function ({className}) {
         <p>
           The current number is {count}
         </p><p>
-          (This is ✨enterprize✨ componet so everything is double)
+          (This is ✨enterprize✨ component so everything is double)
         </p>
         <div>
           <input

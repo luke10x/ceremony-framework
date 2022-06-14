@@ -1,0 +1,16 @@
+[
+  {
+    "practiceType": "addition",
+    "durationInMs": 30000,
+    "mistakes": 5,
+    "solutions": 15,
+    "points": 100
+  },
+  {
+    "practiceType": "multiplication",
+    "durationInMs": 30000,
+    "mistakes": 3,
+    "solutions": 10,
+    "points": 150
+  }
+]
