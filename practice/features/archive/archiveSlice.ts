@@ -14,11 +14,8 @@ const initialState: ArchiveState = {
   previousPractices: []
 }
 
-export interface WrappedData {
-  data: PreviousPractice[]
-}
-
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { useRtkQueryResource } from '../../app/useRktQueryResource'
 
 // Define a service using a base URL and expected endpoints
 export const archiveApi = createApi({
@@ -31,58 +28,6 @@ export const archiveApi = createApi({
   }),
 })
 
-export const useRtkQueryResource = () => {
-  const useGetAllPreviousPracticesPromise = (args: null) => archiveApi
-    .util
-    .getRunningOperationPromise("getAllPreviousPractices", null) as PromiseLike<WrappedData>|undefined
-
-  const { useGetAllPreviousPracticesQuery } = archiveApi
-  
-  const { data } = useGetAllPreviousPracticesQuery(null)
-
-  let promise = useGetAllPreviousPracticesPromise(null)
-
-  if (promise === undefined) {
-    promise = new Promise(
-      (resolve, reject)=> {
-        if (data !== undefined) {
-          resolve({ data })
-        } else {
-          reject("Cannot get RTK Query promise and there is no data loaded yet")
-        }
-      }
-    )
-  }
-  
-  const wrapPromise = <T extends unknown>(promise: PromiseLike<T>) => {
-    let status = 'pending'
-    let response: T
-  
-    const suspender = promise.then(
-      (res: T) => {
-        status = 'success'
-        response = res
-      },
-      (err) => {
-        status = 'error'
-        response = err
-      },
-    )
-  
-    const read = () => {
-      switch (status) {
-        case 'pending':
-          throw suspender
-        case 'error':
-          throw response
-        default:
-          return response
-      }
-    }
-  
-    return { read }
-  }
-
-  return wrapPromise<WrappedData>(promise)
+export const usePreviousPractices = () => {
+  return useRtkQueryResource<PreviousPractice[]>(archiveApi, "getAllPreviousPractices")
 }
-  

@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import styled from "styled-components"
-import { WrappedData } from "./archiveSlice";
+import { WrappedData } from "../../app/useRktQueryResource";
+import { PreviousPractice } from "./archiveSlice";
 
 const PreviousPractices: FC<Props> = function ({className, resource}) {
   
@@ -19,7 +20,7 @@ const PreviousPractices: FC<Props> = function ({className, resource}) {
 
 interface Props {
   className?: string,
-  resource: { read: () => WrappedData}
+  resource: { read: () => WrappedData<PreviousPractice[]> }
 }
 
 const StyledPreviousPractices = styled(PreviousPractices)`
