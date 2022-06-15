@@ -1,15 +1,19 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Archive from '../features/archive/archive'
-import styled from 'styled-components'
+import React, { FC } from "react";
+import dynamic from 'next/dynamic'
+import Link from 'next/link';
 
-const RestyledArchive = styled(Archive)`
-  margin: 0; padding: 0;
-  flex: 1 0 auto;
+const LoadingIndicator: FC<{}> = () => <h1>Lodaing componement...</h1>
 
-  font-family: 'Dekko';
-  font-size: 1.2em;
-`
+const Archive = dynamic(
+  () => import('../features/archive/archive'),
+  {
+    ssr: false,
+    suspense: false,
+    loading: LoadingIndicator 
+  }
+)
 
 const History: NextPage = () => {
   return (
@@ -20,10 +24,15 @@ const History: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        In History page you can browse the archive:
+        <div>Serverside gives this much</div>
         <Archive />
-
       </div>
+
+      <footer className={`footer`}>
+        <Link href="/">
+          <a>Main</a>
+        </Link>
+      </footer>
     </>
   )
 }

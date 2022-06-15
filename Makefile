@@ -16,7 +16,7 @@ up-getaway:
 up: up-practice up-getaway # up-auth up-sync up-mongo
 
 logs:
-	docker-compose logs -f
+	docker-compose logs -f practice
 
 install-practice:
 	docker-compose run --rm practice "npm install"

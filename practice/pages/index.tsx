@@ -80,11 +80,11 @@ const Home: NextPage = () => {
         <Catalog />
       </Main>
 
-      {/* <footer className={styles.footer}>
-        <Link href="/zoo">
-          <a>Other components</a>
+      <footer className={`footer`}>
+        <Link href="/history">
+          <a>History</a>
         </Link>
-      </footer> */}
+      </footer>
     </div>
   )
 }
