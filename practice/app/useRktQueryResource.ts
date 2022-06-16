@@ -1,22 +1,24 @@
-export interface WrappedData<T extends unknown> {
+// Simplified version of QueryActionCreatorResult
+interface WrappedData<T extends unknown> {
   data: T
 }
 
-export const useRtkQueryResource = <V extends unknown>(api: unknown, endpointName: string) => {
+export const useRtkQueryResource = <T extends unknown>(api: unknown, endpointName: string): never | (() => T) => {
   // @ts-ignore
   const apiEndpointQuery = api.endpoints[endpointName]
   // @ts-ignore
   const useEndpointQuery = apiEndpointQuery?.useQuery
   
-  const { data } = useEndpointQuery(null) as WrappedData<V>
+  const { data } = useEndpointQuery(null) as WrappedData<T>
 
   // @ts-ignore
   let promise = api
     // @ts-ignore
     .util
-    .getRunningOperationPromise(endpointName, null) as PromiseLike<WrappedData<V>>|undefined
+    .getRunningOperationPromise(endpointName, null) as PromiseLike<WrappedData<T>>|undefined
 
-
+  // Promise is undefined when data is there cached locally already,
+  // in this case let's have a promise resolved with the locally cached data
   if (promise === undefined) {
     promise = new Promise(
       (resolve, reject)=> {
@@ -29,34 +31,28 @@ export const useRtkQueryResource = <V extends unknown>(api: unknown, endpointNam
     )
   }
   
-  const wrapPromise = <T extends unknown>(promise: PromiseLike<T>) => {
-    let status = 'pending'
-    let response: T
-  
-    const suspender = promise.then(
-      (res: T) => {
-        status = 'success'
-        response = res
-      },
-      (err) => {
-        status = 'error'
-        response = err
-      },
-    )
-  
-    const read = () => {
-      switch (status) {
-        case 'pending':
-          throw suspender
-        case 'error':
-          throw response
-        default:
-          return response
-      }
-    }
-  
-    return { read }
-  }
+  let status = 'pending'
+  let response: T
 
-  return wrapPromise<WrappedData<V>>(promise)
+  promise.then(
+    (res: WrappedData<T>) => {
+      status = 'success'
+      response = res.data
+    },
+    (err) => {
+      status = 'error'
+      response = err
+    },
+  )
+
+  return () => {
+    switch (status) {
+      case 'pending':
+        throw promise
+      case 'error':
+        throw response
+      default:
+        return response
+    }
+  }
 }

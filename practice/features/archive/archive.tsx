@@ -8,14 +8,14 @@ const LoadingIndicator: FC<{}> = () => <h1>Lodaing previous practices...</h1>
 
 const Archive: FC<Props> = function ({className}) {
 
-  const PreviousPracticesResource = usePreviousPractices()
+  const getPreviousPractices = usePreviousPractices()
 
   return (
     <>
       Client side only
       <ErrorBoundary>
         <React.Suspense fallback={<LoadingIndicator />}>
-          <PreviousPractices resource={PreviousPracticesResource} />
+          <PreviousPractices getPreviousPractices={getPreviousPractices} />
         </React.Suspense>
       </ErrorBoundary>
     </>
