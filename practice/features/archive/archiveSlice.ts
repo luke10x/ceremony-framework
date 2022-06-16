@@ -15,7 +15,6 @@ const initialState: ArchiveState = {
 }
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { useRtkQueryResource } from '../../app/useRktQueryResource'
 
 // Define a service using a base URL and expected endpoints
 export const archiveApi = createApi({
@@ -28,6 +27,13 @@ export const archiveApi = createApi({
   }),
 })
 
-export const usePreviousPractices = () => {
-  return useRtkQueryResource<PreviousPractice[]>(archiveApi, "getAllPreviousPractices")
+export const useGetPreviousPracticesSuspenseQuery = () => {
+  const queryActionCreatorResult = archiveApi.endpoints.getAllPreviousPractices.useQuery(null)
+  if (queryActionCreatorResult.isLoading) {
+    const promise = archiveApi.util.getRunningOperationPromise('getAllPreviousPractices', null)
+    if (promise !== undefined) {
+      throw promise
+    }
+  }
+  return queryActionCreatorResult 
 }

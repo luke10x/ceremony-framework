@@ -1,21 +1,17 @@
 import React, { FC } from "react";
 import styled from "styled-components"
 import PreviousPractices from "./previousPractices"
-import { usePreviousPractices } from './archiveSlice'
 import { ErrorBoundary } from "../../app/errorBoundary";
 
 const LoadingIndicator: FC<{}> = () => <h1>Lodaing previous practices...</h1>
 
 const Archive: FC<Props> = function ({className}) {
-
-  const getPreviousPractices = usePreviousPractices()
-
   return (
     <>
       Client side only
       <ErrorBoundary>
         <React.Suspense fallback={<LoadingIndicator />}>
-          <PreviousPractices getPreviousPractices={getPreviousPractices} />
+          <PreviousPractices />
         </React.Suspense>
       </ErrorBoundary>
     </>

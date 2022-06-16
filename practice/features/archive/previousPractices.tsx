@@ -1,14 +1,14 @@
 import React, { FC } from "react";
 import styled from "styled-components"
-import { PreviousPractice } from "./archiveSlice";
+import { useGetPreviousPracticesSuspenseQuery } from "./archiveSlice";
 
-const PreviousPractices: FC<Props> = function ({className, getPreviousPractices}) {
+const PreviousPractices: FC<Props> = function ({ className }) {
   
-  const result = getPreviousPractices()
+  const { data } = useGetPreviousPracticesSuspenseQuery()
 
   return (
     <div className={className}>
-      {result.map((previousPractice, key) => (<div key={key}>
+      {data?.map((previousPractice, key) => (<div key={key}>
         {previousPractice.practiceType}
         ({previousPractice.points})
         error rate: {previousPractice.mistakes}/{previousPractice.solutions}
@@ -19,7 +19,6 @@ const PreviousPractices: FC<Props> = function ({className, getPreviousPractices}
 
 interface Props {
   className?: string,
-  getPreviousPractices: () => PreviousPractice[]
 }
 
 const StyledPreviousPractices = styled(PreviousPractices)`
