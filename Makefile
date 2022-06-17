@@ -1,5 +1,7 @@
 up-practice:
 	docker-compose up -d --force-recreate practice
+up-spades:
+	docker-compose up -d --force-recreate spades
 
 # up-auth:
 # 	docker-compose up -d --force-recreate auth
@@ -16,10 +18,13 @@ up-getaway:
 up: up-practice up-getaway # up-auth up-sync up-mongo
 
 logs:
-	docker-compose logs -f practice
+	docker-compose logs -f practice spades
 
 install-practice:
 	docker-compose run --rm practice "npm install"
+
+install-spades:
+	docker-compose run --rm spades "npm install"
 
 # install-auth:
 # 	docker-compose run --rm auth "npm install"
@@ -31,6 +36,9 @@ install: install-practice # install-auth install-sync
 
 into-practice:
 	docker-compose exec practice bash
+
+into-spades:
+	docker-compose exec spades bash
 
 # into-auth:
 # 	docker-compose exec auth bash
