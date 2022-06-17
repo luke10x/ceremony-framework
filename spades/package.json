@@ -16,7 +16,9 @@
     "react-redux": "^8.0.2",
     "styled-components": "^5.3.5",
     "use-typed-event-listener": "^3.0.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "webpack": "^5.73.0",
+    "worker-plugin": "^5.0.1"
   },
   "devDependencies": {
     "@types/node": "17.0.31",

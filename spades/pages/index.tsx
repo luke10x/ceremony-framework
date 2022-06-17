@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import Catalog from '../features/catalog/catalog'
 import styled from 'styled-components'
+import { useRef, useEffect } from 'react'
 
 const Main = styled.main`
   font-family: 'Dekko';
@@ -51,8 +52,29 @@ const Figure = styled.figure`
     }
   }
 `
+let myWorker: SharedWorker;
+if (typeof window !== "undefined") {
+}
 
 const Home: NextPage = () => {
+
+  const workerRef = useRef() as  {current: SharedWorker}
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+
+      workerRef.current = new SharedWorker(new URL('../worker/my.worker.ts', import.meta.url));
+      workerRef.current.port.start();
+
+      workerRef.current.port.addEventListener('message', messageFromWorker => {
+        console.log({messageFromWorker});
+      });
+    }
+  }, [])
+
+  const handleWork = () => {
+    workerRef.current.port.postMessage(['button clicked'])
+  }
+
   return (
     <div>
       <Head>
@@ -63,6 +85,7 @@ const Home: NextPage = () => {
 
       <Main>
         play spades
+        <button onClick={handleWork}>play</button>
       </Main>
 
       <footer className={`footer`}>
@@ -75,3 +98,7 @@ const Home: NextPage = () => {
 }
 
 export default Home
+function useCallback(arg0: () => Promise<void>, arg1: never[]) {
+  throw new Error('Function not implemented.')
+}
+

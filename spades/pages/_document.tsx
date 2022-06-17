@@ -33,9 +33,9 @@ export default function Document() {
             }
           `}
         </style>
-        <link 
+        {/* <link 
           href='https://fonts.googleapis.com/css?family=Dekko&display=optional'
-          rel='stylesheet' />
+          rel='stylesheet' /> */}
       </Head>
       <body className="document-body">
         <Main />
