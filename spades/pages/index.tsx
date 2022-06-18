@@ -58,21 +58,23 @@ if (typeof window !== "undefined") {
 
 const Home: NextPage = () => {
 
-  const workerRef = useRef() as  {current: SharedWorker}
+  const paradoxRef = useRef() as  {current: SharedWorker}
   useEffect(() => {
     if (typeof window !== "undefined") {
 
-      workerRef.current = new SharedWorker(new URL('../worker/my.worker.ts', import.meta.url));
-      workerRef.current.port.start();
+      paradoxRef.current = new SharedWorker(new URL('../worker/paradox.worker.ts', import.meta.url));
+      paradoxRef.current.port.start();
 
-      workerRef.current.port.addEventListener('message', messageFromWorker => {
+      paradoxRef.current.port.addEventListener('message', messageFromWorker => {
         console.log({messageFromWorker});
       });
+
+      return () => paradoxRef.current.port.close()
     }
   }, [])
 
   const handleWork = () => {
-    workerRef.current.port.postMessage(['button clicked'])
+    paradoxRef.current.port.postMessage(['button clicked'])
   }
 
   return (
