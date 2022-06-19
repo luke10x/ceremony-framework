@@ -3,8 +3,8 @@ import Head from 'next/head'
 import Link from 'next/link'
 import styled from 'styled-components'
 import { useRef, useEffect } from 'react'
-import SpadesWorker from 'worker-loader!../worker/spades.worker';
-import ParadoxWorker from 'worker-loader!../worker/paradox.worker';
+import spadesWorkerPath from 'worker-plugin/loader!../worker/spades.worker'
+import paradoxWorkerPath from 'worker-plugin/loader!../worker/paradox.sharedworker'
 
 const Main = styled.main`
   font-family: 'Dekko';
@@ -13,14 +13,12 @@ const Main = styled.main`
   padding: 10px;
 `
 const Jumbo = styled.div`
-
   display: flex;
   flex-direction: column;
 
   @media (min-aspect-ratio: 1/1) {
     flex-direction: row;
   }
-
 `
 const Heading = styled.div`
   display: flex;  
@@ -59,7 +57,8 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
 
-      paradoxRef.current = new SharedWorker(new URL('../worker/paradox.worker.ts', import.meta.url));
+      paradoxRef.current = new SharedWorker(paradoxWorkerPath, { name: "InternetOfParadox" });
+
       paradoxRef.current?.port.start();
       
       paradoxRef.current?.port.addEventListener('message', event => {
@@ -74,13 +73,13 @@ const Home: NextPage = () => {
   const spadesServerRef = useRef<Worker>()
   useEffect(() => {
     if (typeof window !== "undefined") {
-      spadesServerRef.current = new SpadesWorker()
-      spadesServerRef.current.onerror = err => console.error(err)
+      spadesServerRef.current = new Worker(spadesWorkerPath)
 
+      spadesServerRef.current.onerror = err => console.error(err)
       spadesServerRef.current.onmessageerror = console.error
       spadesServerRef.current.onmessage = event => {
-        const messageFromSpadesWorker = event.data
-        console.log({messageFromSpadesWorker})
+        const fromSpades = event.data
+        console.log({fromSpades})
       };
 
       return () => spadesServerRef.current?.terminate()
@@ -115,4 +114,3 @@ const Home: NextPage = () => {
 }
 
 export default Home
-

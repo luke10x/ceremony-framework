@@ -21,10 +21,10 @@ logs:
 	docker-compose logs -f practice spades
 
 install-practice:
-	docker-compose run --rm practice "npm install"
+	docker-compose run --rm practice "yarn"
 
 install-spades:
-	docker-compose run --rm spades "npm install"
+	docker-compose run --rm spades "yarn"
 
 # install-auth:
 # 	docker-compose run --rm auth "npm install"
