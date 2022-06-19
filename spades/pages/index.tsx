@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import Catalog from '../features/catalog/catalog'
 import styled from 'styled-components'
 import { useRef, useEffect } from 'react'
+import SpadesWorker from 'worker-loader!../worker/spades.worker';
+import ParadoxWorker from 'worker-loader!../worker/paradox.worker';
 
 const Main = styled.main`
   font-family: 'Dekko';
@@ -52,29 +52,44 @@ const Figure = styled.figure`
     }
   }
 `
-let myWorker: SharedWorker;
-if (typeof window !== "undefined") {
-}
 
 const Home: NextPage = () => {
 
-  const paradoxRef = useRef() as  {current: SharedWorker}
+  const paradoxRef = useRef<SharedWorker>()
   useEffect(() => {
     if (typeof window !== "undefined") {
 
       paradoxRef.current = new SharedWorker(new URL('../worker/paradox.worker.ts', import.meta.url));
-      paradoxRef.current.port.start();
-
-      paradoxRef.current.port.addEventListener('message', messageFromWorker => {
-        console.log({messageFromWorker});
+      paradoxRef.current?.port.start();
+      
+      paradoxRef.current?.port.addEventListener('message', event => {
+        const fromParadox = event.data
+        console.log({fromParadox});
       });
 
-      return () => paradoxRef.current.port.close()
+      return () => paradoxRef.current?.port.close()
+    }
+  }, [])
+
+  const spadesServerRef = useRef<Worker>()
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      spadesServerRef.current = new SpadesWorker()
+      spadesServerRef.current.onerror = err => console.error(err)
+
+      spadesServerRef.current.onmessageerror = console.error
+      spadesServerRef.current.onmessage = event => {
+        const messageFromSpadesWorker = event.data
+        console.log({messageFromSpadesWorker})
+      };
+
+      return () => spadesServerRef.current?.terminate()
     }
   }, [])
 
   const handleWork = () => {
-    paradoxRef.current.port.postMessage(['button clicked'])
+    paradoxRef.current?.port.postMessage(['button clicked'])
+    spadesServerRef.current?.postMessage({ limit: 1000 });
   }
 
   return (
@@ -100,7 +115,4 @@ const Home: NextPage = () => {
 }
 
 export default Home
-function useCallback(arg0: () => Promise<void>, arg1: never[]) {
-  throw new Error('Function not implemented.')
-}
 

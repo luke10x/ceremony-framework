@@ -13,6 +13,8 @@ ctx.onconnect = function(e: MessageEvent) {
 
   port.addEventListener('message', function(e) {
 
+  console.log('rrww', e, port);
+
     // get the message sent to the worker
     var message = e.data[0];
     // send the message to ALL connected worker ports!
