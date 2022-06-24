@@ -4,12 +4,12 @@ import {
   ThunkAction,
 } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import counterReducer from '../features/counter/counterSlice';
-import { enterprizeCounterReducer } from '../features/enterprizeCounter/slice';
-import kanyeReducer from '../features/ye/kanyeSlice';
-import practiceReducer from '../features/practice/practiceSlice';
-import catalogReducer from '../features/catalog/catalogSlice';
-import { archiveApi } from '../features/archive/archiveSlice';
+import counterReducer from '../modules/counter/counterSlice';
+import { enterprizeCounterReducer } from '../modules/enterprizeCounter/slice';
+import kanyeReducer from '../modules/ye/kanyeSlice';
+import practiceReducer from '../modules/practice/practiceSlice';
+import catalogReducer from '../modules/catalog/catalogSlice';
+import { archiveApi } from '../modules/archive/archiveSlice';
 
 export const store = configureStore({
   reducer: {
