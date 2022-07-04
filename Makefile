@@ -1,5 +1,3 @@
-up-practice:
-	docker-compose up -d --force-recreate practice
 up-spades:
 	docker-compose up -d --force-recreate spades
 
@@ -15,13 +13,10 @@ up-getaway:
 # up-mongo:
 # 	docker-compose up -d --force-recreate mongo
 
-up: up-practice up-getaway # up-auth up-sync up-mongo
+up: up-spades up-getaway # up-auth up-sync up-mongo
 
 logs:
 	docker-compose logs -f practice spades
-
-install-practice:
-	docker-compose run --rm practice "yarn"
 
 install-spades:
 	docker-compose run --rm spades "yarn"
@@ -32,10 +27,7 @@ install-spades:
 # install-sync:
 # 	docker-compose run --rm sync "npm install"
 
-install: install-practice # install-auth install-sync
-
-into-practice:
-	docker-compose exec practice bash
+install: install-spades # install-auth install-sync
 
 into-spades:
 	docker-compose exec spades bash

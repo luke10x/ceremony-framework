@@ -15,27 +15,6 @@ services:
   #     - |
   #       npm start
 
-  practice:
-    image: node
-    volumes:
-      - "./practice:/mnt/practice"
-    working_dir: "/mnt/practice"
-    environment:
-      PORT: '3000'
-      HTTPS: 'false'                                                                                                                                                                                                                                                            
-      NODE_OPTIONS: ${NODE_OPTIONS:-} # Hacks for the Chromebook will be added here
-      REACT_APP_AUTH_URL: ${AUTH_URL:-https://auth.lvh.me:3002}
-      REACT_APP_AUTH_CLIENT_ID: 'fooclient'
-      REACT_APP_AUTH_AUDIENCE: 'not-used-here'
-      REACT_APP_URL: ${APP_URL:-https://app.lvh.me:3001}
-      REACT_APP_API_URL: ${API_URL:-https://api.lvh.me:3003}
-      NODE_OPTIONS: --openssl-legacy-provider
-    entrypoint: "/bin/bash -c"
-    command:
-      - |
-        yarn dev
-
-
   spades:
     image: node
     volumes:
