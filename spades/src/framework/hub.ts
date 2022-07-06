@@ -23,7 +23,10 @@ export class Hub {
   }
 
   createCeremony(): Projection {
-    throw new Error('Method not implemented.');
+    return {
+      ceremonyId: '0000',
+      handle: '0000',
+    }
   }
 
   admin(hubAdminKey: string): AdminActions {
