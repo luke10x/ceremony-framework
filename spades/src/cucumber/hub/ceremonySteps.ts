@@ -7,6 +7,7 @@ import UuidProviderImpl from '../../platform/uuidProviderImpl';
 const uuidProvider = new UuidProviderImpl()
 const hubId = uuidProvider.createV4()
 const hubAdminKey = uuidProvider.createV4()
+const ceremonyId = uuidProvider.createV4()
 
 let hub: Hub
 let projection: Projection
@@ -14,19 +15,14 @@ let projection: Projection
 Given('there are no Ceremonies in the Hub', () => {
   hub = Hub.createLocal(hubId, hubAdminKey);
   const ceremonies = hub.admin(hubAdminKey).getCeremonies()
+  expect(ceremonies.length).toBe(0)
 });
 
 When('user creates a Ceremony on the Hub', () => {
-  projection = hub.createCeremony()
+  projection = hub.createCeremony(ceremonyId)
 });
 
 Then('there will be one Ceremony in the Hub', () => {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
-});
-
-Then('user will have a Handle to that Ceremony', () => {
-  const { handle, ceremonyId } = projection
-  expect(handle).toMatch(/[0-9A-F-]-{36}/)
-  expect(ceremonyId).toMatch(/[0-9A-F-]-{36}/)
+  const ceremonies = hub.admin(hubAdminKey).getCeremonies()
+  expect(ceremonies.length).toBe(1)
 });
