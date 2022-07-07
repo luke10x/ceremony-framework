@@ -1,6 +1,12 @@
+jest.mock('../platform/uuidProviderImpl')
+import UuidProvider from "./uuidProvider";
+import UuidProviderImpl from "../platform/uuidProviderImpl";
 import { Hub } from "./hub";
 
 describe('Hub', () => {
+
+  const testHandle = '88354dda-7507-426f-bdb7-b72f0fdfb04f'
+
   const hubId = '45ef1596-7cd3-4b1c-807b-61fc8544b9ee'
   const hubAdminKey = '2e26d68e-fbf3-4624-b044-69cd5d3ab0b7'
   const ceremonyId = 'bf888675-a30b-4ef1-86be-12b81b09afaf'
@@ -40,5 +46,20 @@ describe('Hub', () => {
     hub.createCeremony(ceremonyId)
     const adminCeremony = hub.admin(hubAdminKey).getCeremonies()[0]
     expect(adminCeremony.ceremonyId).toBe(ceremonyId)
-  })  
+  })
+
+  describe('when UUID provider returns test-handle', () => {
+    beforeAll(() => (UuidProviderImpl as jest.Mock<UuidProvider>).mockImplementationOnce(
+      () => ({
+        createV4: () => testHandle
+      })
+    ))
+
+    it('returns test-handle for the user when ceremony is created', () => {
+      const hub = Hub.createLocal(hubId, hubAdminKey)
+      const handle = hub.createCeremony(ceremonyId)
+  
+      expect(handle).toBe(testHandle)
+    })
+  })
 })
