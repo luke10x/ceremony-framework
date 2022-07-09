@@ -1,6 +1,8 @@
+import EstimateProtocol from "../estimate/estimateProtocol";
 import UuidProviderImpl from "../platform/uuidProviderImpl";
 import Ceremony from "./ceremony";
 import Projection from "./projection"
+import Protocol from "./protocol";
 import UuidProvider, { uuidV4Rx } from "./uuidProvider";
 
 interface AdminActions {
@@ -12,6 +14,7 @@ export class Hub {
   private ceremonies: { [id: string]: Ceremony } = {}
   private handlesToCeremoniesMap: { [id: string]: string } = {}
   private uuidProvider: UuidProvider;
+  private protocol: Protocol
 
   private constructor(private hubId: string, private hubAdminKey: string) {
     if (!uuidV4Rx.test(hubId)) {
@@ -22,6 +25,7 @@ export class Hub {
     }
 
     this.uuidProvider = new UuidProviderImpl()
+    this.protocol = new EstimateProtocol()
   }
 
   static createLocal(hubId: string, hubAdminKey: string): Hub {
@@ -32,12 +36,20 @@ export class Hub {
     const handle = this.uuidProvider.createV4()
 
     this.ceremonies[ceremonyId] = {
-      ceremonyId,
+      ceremonyId, handles: [handle], state: {}
     }
-    // this.handlesToCeremoniesMap[handle] = ceremonyId
+    this.handlesToCeremoniesMap[handle] = ceremonyId
     return handle
   }
 
+  subscribe(handle: string, callback: jest.Func) {
+    const ceremonyId = this.handlesToCeremoniesMap[handle]
+    const ceremony = this.ceremonies[ceremonyId] 
+    const projection = this.protocol.getCeremonyProjection(ceremony, handle)
+
+    callback(projection)
+  }
+  
   admin(hubAdminKey: string): AdminActions {
     if (hubAdminKey !== this.hubAdminKey) {
       throw new Error('Method not implemented.');
