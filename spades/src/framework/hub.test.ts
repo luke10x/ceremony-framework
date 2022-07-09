@@ -51,25 +51,19 @@ describe('Hub', () => {
 
   describe('when UUID provider returns test-handle', () => {
 
-    const testHandle = 'f44430b8-9b6c-47fa-bbb9-83e32bbd0c8f'
+    const testHandle = 'f44430b8-9b6c-47fa-bbb9-83e32bbd0c8f';
 
-    const mockGetCeremonyProjection = jest.fn().mockImplementation(
-      () => ({ handle: testHandle })
-    );
+    const protocolMethods = {
+      getCeremonyProjection: jest.fn().mockImplementation(() => ({ handle: testHandle }))
+    };
+    (<jest.Mock<Protocol>>EstimateProtocol).mockImplementation(() => protocolMethods);
 
-    beforeEach(() => {
-      (UuidProviderImpl as jest.Mock<UuidProvider>).mockImplementationOnce(
-        () => ({
-          createV4: () => testHandle
-        })
-      );
-
-      (EstimateProtocol as jest.Mock<Protocol>).mockImplementation(
-        () => ({
-          getCeremonyProjection: mockGetCeremonyProjection
-        })
-      );
-    })
+    const uuidProviderMethods = {
+      createV4: () => testHandle
+    };
+    (<jest.Mock<UuidProvider>>UuidProviderImpl).mockImplementation(() => uuidProviderMethods);
+  
+    beforeEach(() => {})
 
     it('returns test-handle for the user when ceremony is created', () => {
       const hub = Hub.createLocal(hubId, hubAdminKey)
@@ -82,28 +76,25 @@ describe('Hub', () => {
       const hub = Hub.createLocal(hubId, hubAdminKey)
       const handle = hub.createCeremony(ceremonyId)
 
-      const projection = hub.subscribe(handle, () => {})
+      hub.subscribe(handle, () => {});
 
-      expect(mockGetCeremonyProjection).toHaveBeenCalledWith(
-        expect.objectContaining({
-          ceremonyId
-        }),
-        handle
-      )
+      expect(protocolMethods.getCeremonyProjection)
+        .toHaveBeenCalledWith(
+          expect.objectContaining({ ceremonyId }),
+          handle
+        )
     })
 
     it('calls subscribed callback with projection payload from protocol', () => {
       const hub = Hub.createLocal(hubId, hubAdminKey)
       const handle = hub.createCeremony(ceremonyId)
-
       const callback = jest.fn()
+
       hub.subscribe(handle, callback)
 
       expect(callback).toHaveBeenCalledWith(
         expect.objectContaining({ handle })
       )
     })
-
   })
-
 })
