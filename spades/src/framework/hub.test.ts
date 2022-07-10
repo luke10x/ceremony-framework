@@ -53,15 +53,16 @@ describe('Hub', () => {
 
     const testHandle = 'f44430b8-9b6c-47fa-bbb9-83e32bbd0c8f';
 
-    const protocolMethods = {
-      getCeremonyProjection: jest.fn().mockImplementation(() => ({ handle: testHandle }))
+    const fnStub = (result: any) => jest.fn().mockImplementation(() => result)
+    const protocol = {
+      getCeremonyProjection: fnStub({ handles: testHandle })
     };
-    (<jest.Mock<Protocol>>EstimateProtocol).mockImplementation(() => protocolMethods);
+    (<jest.Mock<Protocol>>EstimateProtocol).mockImplementation(() => protocol);
 
-    const uuidProviderMethods = {
+    const uuidProvider = {
       createV4: () => testHandle
     };
-    (<jest.Mock<UuidProvider>>UuidProviderImpl).mockImplementation(() => uuidProviderMethods);
+    (<jest.Mock<UuidProvider>>UuidProviderImpl).mockImplementation(() => uuidProvider);
   
     beforeEach(() => {})
 
@@ -78,7 +79,7 @@ describe('Hub', () => {
 
       hub.subscribe(handle, () => {});
 
-      expect(protocolMethods.getCeremonyProjection)
+      expect(protocol.getCeremonyProjection)
         .toHaveBeenCalledWith(
           expect.objectContaining({ ceremonyId }),
           handle

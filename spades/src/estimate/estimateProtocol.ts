@@ -1,5 +1,4 @@
 import Ceremony from "../framework/ceremony";
-import ceremony from "../framework/ceremony";
 import Projection from "../framework/projection";
 import Protocol from "../framework/protocol";
 
