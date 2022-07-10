@@ -36,7 +36,10 @@ export class Hub {
     const handle = this.uuidProvider.createV4()
 
     this.ceremonies[ceremonyId] = {
-      ceremonyId, handles: [handle], state: {}
+      ceremonyId,
+      handles: [handle],
+      state: {},
+      iteration: 0
     }
     this.handlesToCeremoniesMap[handle] = ceremonyId
     return handle
