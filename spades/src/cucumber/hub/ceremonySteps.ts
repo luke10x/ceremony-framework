@@ -54,3 +54,9 @@ Then('user will receive first iteration of the Projection', () => {
     iteration: 1
   }))
 });
+
+
+Then('user will receive Projection', () => {
+  // Write code here that turns the phrase above into concrete actions
+  return 'pending';
+});
