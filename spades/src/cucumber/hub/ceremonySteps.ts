@@ -48,15 +48,9 @@ When('user subscribes with the Handle', () => {
   hub.subscribe(handle, callback)
 });
 
-Then('user will receive first iteration of the Projection', () => {
+Then('user will receive Projection', () => {
   expect(projection).toMatchObject(expect.objectContaining({
     handle,
-    iteration: 1
+    iteration: 0
   }))
-});
-
-
-Then('user will receive Projection', () => {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
 });
