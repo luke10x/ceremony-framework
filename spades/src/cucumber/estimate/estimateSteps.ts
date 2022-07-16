@@ -1,5 +1,7 @@
 import expect from 'expect';
 import { Given, When, Then, defineParameterType } from '@cucumber/cucumber';
+import { Hub } from '../../framework/hub';
+import UuidProviderImpl from '../../platform/uuidProviderImpl';
 
 
 interface Persona {
@@ -8,28 +10,35 @@ interface Persona {
 }
 
 const personae: { [key: string]: Persona } = {
-  "Alice": { name: "Alice", handle: "aaa" },
-  "Bob": { name: "Bob", handle: "bbb" },
-  "Charlie": { name: "Charlie", handle: "ccc" }
+  "Alice": { name: "Alice", handle: "a1c9a021-5c13-40a2-81df-5ed46212b790" },
+  "Bob": { name: "Bob", handle: "b0bfe1bd-22e5-40ef-bc0b-f808b4505557" },
+  "Charlie": { name: "Charlie", handle: "c4b46b2c-0c0a-47db-9ab6-7bf36defdb00" }
 }
 
 defineParameterType({
-  name: 'handle',
+  name: 'persona',
   regexp: /Alice|Bob|Charlie/,
   transformer: (key: string): string => personae[key].name,
 });
 
-Given('{handle} created a Ceremony', (handle: any) => {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+const uuidProvider = new UuidProviderImpl()
+const hubId = uuidProvider.createV4()
+const hubAdminKey = uuidProvider.createV4()
+const ceremonyId = uuidProvider.createV4()
+
+let hub: Hub
+
+Given('{persona} created a Ceremony', (persona: Persona) => {
+  hub = Hub.createLocal(hubId, hubAdminKey)
+  hub.createCeremony(ceremonyId, persona.handle)
 });
 
-Given('{handle} shared an Invite-Link to {handle}', (handle: any, handle2: any) => {
+Given('{persona} shared an Invite-Link to {persona}', (handle: any, handle2: any) => {
   // Write code here that turns the phrase above into concrete actions                                                                                 
   return 'pending';
 });
 
-Given('{handle} has joined the Ceremony', (handle: any) => {
+Given('{persona} has joined the Ceremony', (handle: any) => {
   // Write code here that turns the phrase above into concrete actions
   return 'pending';
 });
@@ -39,48 +48,48 @@ Given('there is a Task in {string} status', (string: any) => {
   return 'pending';
 });
 
-When('{handle} joins a valid Invite-Link', (handle: any) => {
+When('{persona} joins a valid Invite-Link', (handle: any) => {
   // Write code here that turns the phrase above into concrete actions                                                                                 
   return 'pending';
 });
 
-When('{handle} adds a Task', (handle: any) => {
+When('{persona} adds a Task', (handle: any) => {
   // Write code here that turns the phrase above into concrete actions                                                                                 
   return 'pending';
 });
 
-When('{handle} gives estimation {int}', (handle: any, int: any) => {
-  // When('{handle} gives estimation {float}', (handle: any, float: any) => {
+When('{persona} gives estimation {int}', (handle: any, int: any) => {
+  // When('{persona} gives estimation {float}', (handle: any, float: any) => {
   // Write code here that turns the phrase above into concrete actions
   return 'pending';
 });
 
-When('{handle} starts estimation for the task', (handle: any) => {
+When('{persona} starts estimation for the task', (handle: any) => {
   // Write code here that turns the phrase above into concrete actions                                                                                 
   return 'pending';
 });
 
-When('{handle} stops estimation for the task', (handle: any) => {
+When('{persona} stops estimation for the task', (handle: any) => {
   // Write code here that turns the phrase above into concrete actions                                                                                 
   return 'pending';
 });
 
-Then('{handle} should to see the Ceremony', (handle: any) => {                                                                                         
+Then('{persona} should to see the Ceremony', (handle: any) => {                                                                                         
   // Write code here that turns the phrase above into concrete actions                                                                                 
   return 'pending';                                                                                                                                    
 });
 
-Then('{handle} should see that {handle} has joined the Ceremony', (handle: any, handle2: any) => {
+Then('{persona} should see that {persona} has joined the Ceremony', (handle: any, handle2: any) => {
   // Write code here that turns the phrase above into concrete actions
   return 'pending';
 });
 
-Then('{handle} cannot see this task', (handle: any) => {
+Then('{persona} cannot see this task', (handle: any) => {
   // Write code here that turns the phrase above into concrete actions
   return 'pending';
 });
 
-Then('{handle} can see the Task as {string}', (handle: any, string: any) => {
+Then('{persona} can see the Task as {string}', (handle: any, string: any) => {
   // Write code here that turns the phrase above into concrete actions                                                                                 
   return 'pending';
 });
@@ -90,13 +99,13 @@ Then('the Engineers are requested to estimate the Task', () => {
   return 'pending';
 });
 
-Then('{handle} can see that {handle} gave some estimation', (handle: any, handle2: any) => {
+Then('{persona} can see that {persona} gave some estimation', (handle: any, handle2: any) => {
   // Write code here that turns the phrase above into concrete actions                                                                                 
   return 'pending';
 });
 
-Then('{handle} can see that {handle} gave estimation {int}', (handle: any, handle2: any, int: any) => {
-  // Then('{handle} can see that {handle} gave estimation {float}', (handle: any, handle2: any, float: any) => {
+Then('{persona} can see that {persona} gave estimation {int}', (handle: any, handle2: any, int: any) => {
+  // Then('{persona} can see that {persona} gave estimation {float}', (handle: any, handle2: any, float: any) => {
   // Write code here that turns the phrase above into concrete actions
   return 'pending';
 });

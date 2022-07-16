@@ -9,10 +9,10 @@ const uuidProvider = new UuidProviderImpl()
 const hubId = uuidProvider.createV4()
 const hubAdminKey = uuidProvider.createV4()
 const ceremonyId = uuidProvider.createV4()
+const handle = uuidProvider.createV4()
 
 let hub: Hub
 let projection: Projection
-let handle: string
 let callback: (payload: any) => void
 
 Given('there are no Ceremonies in the Hub', () => {
@@ -22,7 +22,7 @@ Given('there are no Ceremonies in the Hub', () => {
 });
 
 When('user creates a Ceremony on the Hub', () => {
-  handle = hub.createCeremony(ceremonyId)
+  hub.createCeremony(ceremonyId, handle)
 });
 
 Then('admin will be able to see one Ceremony in the Hub', () => {
@@ -36,7 +36,7 @@ Then('the user will receive a Handle', () => {
 
 Given('there is a Ceremony in the Hub', () => {
   hub = Hub.createLocal(hubId, hubAdminKey)
-  handle = hub.createCeremony(ceremonyId)
+  hub.createCeremony(ceremonyId, handle)
   const ceremonies = hub.admin(hubAdminKey).getCeremonies()
   expect(ceremonies.length).toBe(1)
 });

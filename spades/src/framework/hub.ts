@@ -1,9 +1,7 @@
 import EstimateProtocol from "../estimate/estimateProtocol";
-import UuidProviderImpl from "../platform/uuidProviderImpl";
 import Ceremony from "./ceremony";
-import Projection from "./projection"
 import Protocol from "./protocol";
-import UuidProvider, { uuidV4Rx } from "./uuidProvider";
+import { uuidV4Rx } from "./uuidProvider";
 
 interface AdminActions {
   getCeremonies: () => Ceremony[]
@@ -13,7 +11,6 @@ export class Hub {
 
   private ceremonies: { [id: string]: Ceremony } = {}
   private handlesToCeremoniesMap: { [id: string]: string } = {}
-  private uuidProvider: UuidProvider;
   private protocol: Protocol
 
   private constructor(private hubId: string, private hubAdminKey: string) {
@@ -24,7 +21,6 @@ export class Hub {
       throw new Error('Hub ID is not valid admin key')
     }
 
-    this.uuidProvider = new UuidProviderImpl()
     this.protocol = new EstimateProtocol()
   }
 
@@ -32,17 +28,14 @@ export class Hub {
     return new Hub(hubId, hubAdminKey)
   }
 
-  createCeremony(ceremonyId: string): string {
-    const handle = this.uuidProvider.createV4()
-
+  createCeremony(ceremonyId: string, creatorHandle: string): void {
     this.ceremonies[ceremonyId] = {
       ceremonyId,
-      handles: [handle],
+      handles: [creatorHandle],
       state: {},
       iteration: 0
     }
-    this.handlesToCeremoniesMap[handle] = ceremonyId
-    return handle
+    this.handlesToCeremoniesMap[creatorHandle] = ceremonyId
   }
 
   subscribe(handle: string, callback: jest.Func) {

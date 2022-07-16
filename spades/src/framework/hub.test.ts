@@ -11,6 +11,8 @@ describe('Hub', () => {
 
   const hubId = '45ef1596-7cd3-4b1c-807b-61fc8544b9ee'
   const hubAdminKey = '2e26d68e-fbf3-4624-b044-69cd5d3ab0b7'
+  const testHandle = 'f44430b8-9b6c-47fa-bbb9-83e32bbd0c8f';
+
   const ceremonyId = 'bf888675-a30b-4ef1-86be-12b81b09afaf'
   it('can be reated locally with hub ID and admin key', () => {
     expect(
@@ -37,64 +39,57 @@ describe('Hub', () => {
 
   it('gives a list of one ceremony to admin when one ceremony is added', () => {
     const hub = Hub.createLocal(hubId, hubAdminKey)
-    hub.createCeremony(ceremonyId)
+    hub.createCeremony(ceremonyId, testHandle)
     const adminCeremonies = hub.admin(hubAdminKey).getCeremonies()
     expect(adminCeremonies.length).toBe(1)
   })
 
   it('gives a ceremony to admin with the same ID that was created', () => {
     const hub = Hub.createLocal(hubId, hubAdminKey)
-    hub.createCeremony(ceremonyId)
+    hub.createCeremony(ceremonyId, testHandle)
     const adminCeremony = hub.admin(hubAdminKey).getCeremonies()[0]
     expect(adminCeremony.ceremonyId).toBe(ceremonyId)
   })
 
-  describe('when UUID provider returns test-handle', () => {
+  describe('protocol is mocked', () => {
 
-    const testHandle = 'f44430b8-9b6c-47fa-bbb9-83e32bbd0c8f';
 
     const fnStub = (result: any) => jest.fn().mockImplementation(() => result)
     const protocol = {
-      getCeremonyProjection: fnStub({ handles: testHandle })
+      getCeremonyProjection: fnStub({ handle: testHandle })
     };
     (<jest.Mock<Protocol>>EstimateProtocol).mockImplementation(() => protocol);
-
-    const uuidProvider = {
-      createV4: () => testHandle
-    };
-    (<jest.Mock<UuidProvider>>UuidProviderImpl).mockImplementation(() => uuidProvider);
   
     beforeEach(() => {})
 
-    it('returns test-handle for the user when ceremony is created', () => {
+    it('can create a ceremony', () => {
       const hub = Hub.createLocal(hubId, hubAdminKey)
-      const handle = hub.createCeremony(ceremonyId)
-  
-      expect(handle).toBe(testHandle)
+      expect(() => hub.createCeremony(ceremonyId, testHandle))
+        .not.toThrow()
     })
 
     it('gets a projection of ceremony for this handle on subscribtion from protocol', () => {
       const hub = Hub.createLocal(hubId, hubAdminKey)
-      const handle = hub.createCeremony(ceremonyId)
+      hub.createCeremony(ceremonyId, testHandle)
 
-      hub.subscribe(handle, () => {});
+      hub.subscribe(testHandle, () => {});
 
       expect(protocol.getCeremonyProjection)
         .toHaveBeenCalledWith(
           expect.objectContaining({ ceremonyId }),
-          handle
+          testHandle
         )
     })
 
     it('calls subscribed callback with projection payload from protocol', () => {
       const hub = Hub.createLocal(hubId, hubAdminKey)
-      const handle = hub.createCeremony(ceremonyId)
+      hub.createCeremony(ceremonyId, testHandle)
       const callback = jest.fn()
 
-      hub.subscribe(handle, callback)
+      hub.subscribe(testHandle, callback)
 
       expect(callback).toHaveBeenCalledWith(
-        expect.objectContaining({ handle })
+        expect.objectContaining({ handle: testHandle })
       )
     })
   })
