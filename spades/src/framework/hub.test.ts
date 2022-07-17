@@ -3,6 +3,7 @@ import UuidProviderImpl from "../platform/uuidProviderImpl";
 import { Hub } from "./hub";
 import Protocol from "./protocol";
 import EstimateProtocol from "../estimate/estimateProtocol";
+import Ceremony from "./ceremony";
 
 jest.mock('../platform/uuidProviderImpl')
 jest.mock('../estimate/estimateProtocol')
@@ -51,24 +52,37 @@ describe('Hub', () => {
     expect(adminCeremony.ceremonyId).toBe(ceremonyId)
   })
 
-  describe('protocol is mocked', () => {
-
+  describe('given protocol-mock is configured', () => {
 
     const fnStub = (result: any) => jest.fn().mockImplementation(() => result)
+
     const protocol = {
-      getCeremonyProjection: fnStub({ handle: testHandle })
+      getInitialCeremony: (ceremonyId: string, creatorHandle: string): Ceremony => {
+        return {
+          ceremonyId,
+          handles: [ creatorHandle ],
+          iteration: 1,
+          state: {
+            description: 'mocked initial state'
+          }
+        }
+      },
+      getCeremonyProjection: fnStub({ handle: testHandle, iteration: 1 }),
     };
     (<jest.Mock<Protocol>>EstimateProtocol).mockImplementation(() => protocol);
   
     beforeEach(() => {})
 
-    it('can create a ceremony', () => {
+    it('creates a ceremony with initial data from protocol', () => {
       const hub = Hub.createLocal(hubId, hubAdminKey)
-      expect(() => hub.createCeremony(ceremonyId, testHandle))
-        .not.toThrow()
+      
+      hub.createCeremony(ceremonyId, testHandle)
+      const adminCeremony = hub.admin(hubAdminKey).getCeremonies()[0]
+
+      expect(adminCeremony.state?.description).toMatch(/mocked initial state/)
     })
 
-    it('gets a projection of ceremony for this handle on subscribtion from protocol', () => {
+    it('gets a projection from protocol on subscribing', () => {
       const hub = Hub.createLocal(hubId, hubAdminKey)
       hub.createCeremony(ceremonyId, testHandle)
 
@@ -89,7 +103,7 @@ describe('Hub', () => {
       hub.subscribe(testHandle, callback)
 
       expect(callback).toHaveBeenCalledWith(
-        expect.objectContaining({ handle: testHandle })
+        expect.objectContaining({ handle: testHandle, iteration: 1 })
       )
     })
   })

@@ -29,12 +29,7 @@ export class Hub {
   }
 
   createCeremony(ceremonyId: string, creatorHandle: string): void {
-    this.ceremonies[ceremonyId] = {
-      ceremonyId,
-      handles: [creatorHandle],
-      state: {},
-      iteration: 0
-    }
+    this.ceremonies[ceremonyId] = this.protocol.getInitialCeremony(ceremonyId, creatorHandle)
     this.handlesToCeremoniesMap[creatorHandle] = ceremonyId
   }
 
