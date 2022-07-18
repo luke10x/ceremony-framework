@@ -82,7 +82,7 @@ describe('Hub', () => {
       expect(adminCeremony.state?.description).toMatch(/mocked initial state/)
     })
 
-    it('gets a projection from protocol on subscribing', () => {
+    it('calls protocol to get projection on subscribtion', () => {
       const hub = Hub.createLocal(hubId, hubAdminKey)
       hub.createCeremony(ceremonyId, testHandle)
 
