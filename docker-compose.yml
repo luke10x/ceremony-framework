@@ -34,6 +34,8 @@ services:
     command:
       - |
         yarn dev
+    ports: [ 12288:12288 ]
+
 
   # auth:
   #   image: node

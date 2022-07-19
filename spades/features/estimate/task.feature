@@ -1,14 +1,14 @@
-# Feature: Engineers can estimate tasks
+# Feature: Voters can estimate tasks
 
 #   Alice is Agile Coach
-#   Bob and Charlie are Engineers
+#   Bob and Charlie are Voters
 
-#   Background: Engineers are joined to a Ceremony
+#   Background: Voters are joined to a Ceremony
 #     Given Alice created a Ceremony
 #     And Bob has joined the Ceremony
 #     And Charlie has joined the Ceremony
 
-#   Scenario: Agile-Coach can create tasks, but the Engineers cannot see them yet
+#   Scenario: Agile-Coach can create tasks, but the Voters cannot see them yet
 #     Given there is a Task in "not-estimated" status
 
 #     When Alice adds a Task
@@ -16,16 +16,16 @@
 #     Then Alice can see the Task as "not-estimated"
 #     But Bob cannot see this task
 
-#   Scenario: Agile-Coach can start estimation, and the Engineers can estimate it
+#   Scenario: Agile-Coach can start estimation, and the Voters can estimate it
 #     Given there is a Task in "not-estimated" status
     
 #     When Alice starts estimation for the task
     
 #     Then Alice can see the Task as "under-estimattion"
 #     And Bob can see the Task as "under-estimattion"
-#     And the Engineers are requested to estimate the Task
+#     And the Voters are requested to estimate the Task
 
-#   Scenario: Engineer can give an estimation when started
+#   Scenario: Voter can give an estimation when started
 #     Given there is a Task in "under-estimation" status
 
 #     When Bob gives estimation 5
